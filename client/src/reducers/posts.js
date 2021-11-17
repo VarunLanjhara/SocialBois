@@ -3,7 +3,7 @@ export const posts = (posts = [],action) => {
         case "FETCH":
             return action.payload
         case "CREATE":
-            return action.payload
+            return [...posts,action.payload]
         default:
             return posts
     }
