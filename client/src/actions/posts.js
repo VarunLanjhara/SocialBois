@@ -11,3 +11,16 @@ export const getPosts = () => async (dispatch) => {
     console.log(err);
   }
 };
+
+export const createPosts = (databoi) => async (dispatch) => {
+  try{
+    const {data} = await api.createPosts(databoi)
+    dispatch({
+      type: "CREATE",
+      payload: data,
+    });
+  }
+  catch(err){
+    console.log(err)
+  }
+}
