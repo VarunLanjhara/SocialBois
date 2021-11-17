@@ -9,11 +9,10 @@ import InputBase from "@mui/material/InputBase";
 import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import "./Navbar.css";
 import HomeIcon from "@mui/icons-material/Home";
@@ -61,30 +60,30 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const Navbar = () => {
-    const [anchorEl, setAnchorEl] = useState(null);
-    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-  
-    const isMenuOpen = Boolean(anchorEl);
-    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
-    const navigate = useNavigate()
-  
-    const handleProfileMenuOpen = (event) => {
-      setAnchorEl(event.currentTarget);
-    };
-  
-    const handleMobileMenuClose = () => {
-      setMobileMoreAnchorEl(null);
-    };
-  
-    const handleMenuClose = () => {
-      setAnchorEl(null);
-      handleMobileMenuClose();
-    };
-  
-    const handleMobileMenuOpen = (event) => {
-      setMobileMoreAnchorEl(event.currentTarget);
-    };
+  const isMenuOpen = Boolean(anchorEl);
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const navigate = useNavigate();
+
+  const handleProfileMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
+  };
+
+  const handleMobileMenuOpen = (event) => {
+    setMobileMoreAnchorEl(event.currentTarget);
+  };
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -129,12 +128,24 @@ const Navbar = () => {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
+        <IconButton
+          size="large"
+          aria-label="show 17 new notifications"
+          color="inherit"
+        >
+          <Badge>
+            <WhatshotIcon />
           </Badge>
         </IconButton>
-        <p>Messages</p>
+        <p>Trending</p>
+      </MenuItem>
+      <MenuItem>
+        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+          {/* <Badge> */}
+          <CreateIcon />
+          {/* </Badge> */}
+        </IconButton>
+        <p>Create Post</p>
       </MenuItem>
       <MenuItem>
         <IconButton
@@ -142,7 +153,7 @@ const Navbar = () => {
           aria-label="show 17 new notifications"
           color="inherit"
         >
-          <Badge badgeContent={17} color="error">
+          <Badge>
             <NotificationsIcon />
           </Badge>
         </IconButton>
@@ -158,7 +169,7 @@ const Navbar = () => {
         >
           <AccountCircle />
         </IconButton>
-        <p>Profile</p>
+        <p>Your Stuff</p>
       </MenuItem>
     </Menu>
   );
@@ -200,6 +211,13 @@ const Navbar = () => {
               </IconButton>
               <IconButton size="large" aria-label="add blogs" color="inherit">
                 <WhatshotIcon fontSize="large" />
+              </IconButton>
+              <IconButton
+                size="large"
+                aria-label="show 4 new mails"
+                color="inherit"
+              >
+                <NotificationsIcon fontSize="large" />
               </IconButton>
               <IconButton
                 size="large"
