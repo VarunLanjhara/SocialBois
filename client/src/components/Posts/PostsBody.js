@@ -11,13 +11,38 @@ import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import "./PostsBody.css"
+import "./PostsBody.css";
 import { CardActionArea } from "@mui/material";
-import ReportProblemIcon from '@mui/icons-material/ReportProblem';
-import CommentIcon from '@mui/icons-material/Comment';
-import {format} from "timeago.js"
+import ReportProblemIcon from "@mui/icons-material/ReportProblem";
+import CommentIcon from "@mui/icons-material/Comment";
+import { format } from "timeago.js";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import {
+  FacebookShareButton,
+  PinterestShareButton,
+  RedditShareButton,
+  WhatsappShareButton,
+  TwitterShareButton,
+  FacebookIcon,
+  RedditIcon,
+  PinterestIcon,
+  TwitterIcon,
+  WhatsappIcon,
+} from "react-share";
 
-const PostBody = ({post}) => {
+const PostBody = ({ post }) => {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const SHARE_URL = "http://localhost:3000/post/";
+
   return (
     <div>
       <Card sx={{ maxWidth: 620 }} className="PostBody">
@@ -48,13 +73,49 @@ const PostBody = ({post}) => {
             </Typography>
           </CardContent>
         </CardActionArea>
-        <CardActions disableSpacing = {false}>
+        <CardActions disableSpacing={false}>
           <IconButton aria-label="add to favorites">
             <FavoriteIcon />
           </IconButton>
-          <IconButton aria-label="share">
+          <IconButton aria-label="share" onClick={handleClick}>
             <ShareIcon />
           </IconButton>
+          <Menu
+            id="demo-positioned-menu"
+            aria-labelledby="demo-positioned-button"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "left",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "left",
+            }}
+          >
+            <MenuItem onClick={handleClose}>
+              <WhatsappShareButton url={`${SHARE_URL + post._id}`}>
+                <WhatsappIcon />
+              </WhatsappShareButton>
+            </MenuItem>
+            <MenuItem onClick={handleClose}>
+              <FacebookShareButton url={`${SHARE_URL + post._id}`}>
+                <FacebookIcon />
+              </FacebookShareButton>
+            </MenuItem>
+            <MenuItem onClick={handleClose}>
+              <TwitterShareButton url={`${SHARE_URL + post._id}`}>
+                <TwitterIcon />
+              </TwitterShareButton>
+            </MenuItem>
+            <MenuItem onClick={handleClose}>
+              <RedditShareButton url={`${SHARE_URL + post._id}`}>
+                <RedditIcon />
+              </RedditShareButton>
+            </MenuItem>
+          </Menu>
           <IconButton aria-label="share">
             <ReportProblemIcon />
           </IconButton>
