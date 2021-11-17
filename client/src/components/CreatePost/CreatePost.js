@@ -5,7 +5,7 @@ import { createPosts } from '../../actions/posts'
 
 const CreatePost = () => {
 
-    const [postData,setpostData] = useState({author:"",title:"",body:"",tags:"",file:""})
+    const [postData,setpostData] = useState({author:"",body:"",tags:"",file:""})
     const dispatch = useDispatch()
 
     const createpost = (event) => {
@@ -16,7 +16,6 @@ const CreatePost = () => {
     return (
         <div>
             <input type = "text" onChange={(e) => setpostData({...postData,author:e.target.value})}/>
-            <input type = "text" onChange={(e) => setpostData({...postData,title:e.target.value})}/>
             <input type = "text" onChange={(e) => setpostData({...postData,body:e.target.value})}/>
             <input type = "text" onChange={(e) => setpostData({...postData,tags:e.target.value})}/>
             <FileBase64  type = "file"  multiple = {false} accept = "image/*" onDone = {({base64}) => setpostData({...postData,file:base64})}/>

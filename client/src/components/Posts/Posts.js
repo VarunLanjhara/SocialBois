@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Posts.css";
 import { Avatar, TextField } from "@mui/material";
 import PostBody from "./PostsBody.js";
+import { getPosts } from "../../actions/posts.js";
+import { useDispatch, useSelector } from "react-redux";
 
 const Posts = () => {
+  const dispatch = useDispatch();
+  const posts = useSelector((posts) => posts.posts);
+  useEffect(() => {
+    dispatch(getPosts());
+  }, [dispatch]);
+
   return (
     <div className="Posts">
       <div className="topstuff">
@@ -18,9 +26,9 @@ const Posts = () => {
           style={{ marginLeft: "20px", marginTop: "20px", width: "480px" }}
         />
       </div>
-      <PostBody />
-      <PostBody />
-      <PostBody />
+      {posts.map((post,index) => (
+          <PostBody key = {index} post = {post}/>
+      ))}
     </div>
   );
 };

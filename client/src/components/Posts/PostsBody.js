@@ -1,11 +1,9 @@
 import React from "react";
-import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
-import Collapse from "@mui/material/Collapse";
 import Avatar from "@mui/material/Avatar";
 import IconButton, { IconButtonProps } from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
@@ -17,15 +15,16 @@ import "./PostsBody.css"
 import { CardActionArea } from "@mui/material";
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import CommentIcon from '@mui/icons-material/Comment';
+import {format} from "timeago.js"
 
-const PostBody = () => {
+const PostBody = ({post}) => {
   return (
     <div>
       <Card sx={{ maxWidth: 620 }} className="PostBody">
         <CardHeader
           avatar={
             <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-              R
+              {post.author.charAt(0)}
             </Avatar>
           }
           action={
@@ -33,22 +32,19 @@ const PostBody = () => {
               <MoreVertIcon />
             </IconButton>
           }
-          title="Sur"
-          subheader="4 hours ago"
+          title={post.author}
+          subheader={format(post.createdAt)}
         />
         <CardActionArea>
           <CardMedia
             component="img"
             height="194"
-            image="https://mui.com/static/images/cards/paella.jpg"
+            image={post.file}
             alt="Paella dish"
           />
           <CardContent>
             <Typography variant="body2" color="text.secondary">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Excepturi, rem! Modi, aperiam! Nulla pariatur maxime ut magnam,
-              dolorum iure sapiente aliquid ullam alias reiciendis doloribus
-              obcaecati dolore veniam molestias sint.
+              {post.body}
             </Typography>
           </CardContent>
         </CardActionArea>
