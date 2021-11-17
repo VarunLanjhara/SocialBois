@@ -3,6 +3,7 @@ import './App.css';
 import { useDispatch,useSelector } from 'react-redux';
 import Home from './pages/Home/Home';
 import {getPosts} from "./actions/posts.js"
+import {BrowserRouter as Router,Route,Routes} from "react-router-dom"
 
 function App() {
 
@@ -15,7 +16,11 @@ function App() {
 
   return (
     <div className="App">
-      <Home />
+      <Router>
+        <Routes>
+          <Route path = "/" element = {<Home />}/>
+        </Routes>
+      </Router>
     </div>
   );
 }

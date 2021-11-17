@@ -1,13 +1,14 @@
-import React from 'react'
-import CreatePost from '../../components/CreatePost/CreatePost'
+import React from "react";
+import CreatePost from "../../components/CreatePost/CreatePost";
+import Navbar from "../../components/Navbar/Navbar";
 
 const Home = () => {
-    return (
-        <div>
-            <h1>I am dumb</h1>
-            <CreatePost />
-        </div>
-    )
-}
+  return (
+    <div>
+      <Navbar />
+      <CreatePost />
+    </div>
+  );
+};
 
-export default Home
+export default Home;
