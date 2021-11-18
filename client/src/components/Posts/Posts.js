@@ -37,8 +37,8 @@ const Posts = () => {
   };
 
   const createPost = (e) => {
+    dispatch(createPosts(postData))
     setOpen(false);
-    console.log(postData.file)
   }
 
   return (
@@ -75,6 +75,9 @@ const Posts = () => {
           <TextField id="outlined-basic" label="Creator" onChange={(e) => setpostData({...postData,author:e.target.value})}  variant="outlined" style = {{width:"530px",marginBottom:"20px",marginTop:"10px"}}/>
           <TextField id="outlined-basic" label="Body" onChange={(e) => setpostData({...postData,body:e.target.value})} variant="outlined" multiline rows={4} style = {{width:"530px",marginBottom:"20px"}}/>
           <FileBase64  type = "file"  multiple = {false} accept="image/png, image/gif, image/jpeg" onDone = {({base64}) => setpostData({...postData,file:base64})}/>
+          {
+            postData.file ? <img alt = "" src = {postData.file} style = {{marginTop:"20px"}}/> : <h1>No Image Selected</h1>
+          }
           </DialogContentText>
         </DialogContent>
         <DialogActions>
