@@ -1,6 +1,6 @@
 import express from "express";
 import Post from "../models/postModel.js";
-import mognoose from "mongoose"
+import mognoose from "mongoose";
 
 const router = express.Router();
 
@@ -34,41 +34,41 @@ router.post("/", async (req, res) => {
 
 //update post
 
-router.put("/:id",async (req,res) => {
-    const id = req.params.id
-    const post = req.body
+router.put("/:id", async (req, res) => {
+  const id = req.params.id;
+  const post = req.body;
 
-    if (!mognoose.Types.ObjectId.isValid(id)){
-        return res.status(403).json("Post id doesnt exists")
-    }
-    else{
-        const updatedpost = await Post.findByIdAndUpdate(id,post,{new:true})
-        res.json(updatedpost)
-    }
-})
+  if (!mognoose.Types.ObjectId.isValid(id)) {
+    return res.status(403).json("Post id doesnt exists");
+  } else {
+    const updatedpost = await Post.findByIdAndUpdate(id, post, { new: true });
+    res.json(updatedpost);
+  }
+});
 
 //delete post
 
-router.delete("/:id",async (req,res) => {
-    const id = req.params.id
+router.delete("/:id", async (req, res) => {
+  const id = req.params.id;
 
-    if (!mognoose.Types.ObjectId.isValid(id)){
-        return res.status(403).json("Post id doesnt exists")
-    }
-    else{
-        await Post.findByIdAndDelete(id,() => {
-            res.json("Post deleted sucessfuly")
-        })
-    }
-})
+  if (!mognoose.Types.ObjectId.isValid(id)) {
+    return res.status(403).json("Post id doesnt exists");
+  } else {
+    await Post.findByIdAndDelete(id, () => {
+      res.json("Post deleted sucessfuly");
+    });
+  }
+});
 
 //like post
 
-router.put("/:id/like",async (req,res) => {
-    const id = req.params.id
-    const post = await Post.findById(id)
-    likepost = await Post.findByIdAndUpdate(id,{likes:post.likes + 1},{new:true})
-    res.json(likepost)
-})
+router.put("/:id/like", async (req, res) => {
+  const id = req.params.id;
+  const post = await Post.findById(id);
+  await post.updateOne({
+    $push: { likes: 69 },
+  });
+  res.json("Like added succesfully idiot");
+});
 
 export default router;

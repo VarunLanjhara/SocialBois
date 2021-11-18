@@ -32,7 +32,7 @@ import Slide from "@mui/material/Slide";
 import FileBase64 from "react-file-base64";
 import { Button } from "@mui/material";
 import { InfoOutlined } from "@mui/icons-material";
-import { deletePosts } from "../../actions/posts";
+import { deletePosts, likePosts } from "../../actions/posts";
 import { useDispatch } from "react-redux";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
@@ -46,7 +46,7 @@ const PostBody = ({ post }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  
   const dispatch = useDispatch()
 
   const Alert = React.forwardRef(function Alert(props, ref) {
@@ -106,6 +106,11 @@ const PostBody = ({ post }) => {
     handleClickdeletealert()
   }
 
+  const likePost = (e) => {
+    e.preventDefault()
+    dispatch(likePosts(post._id))
+  }
+
   return (
     <div>
       <Card sx={{ maxWidth: 620 }} className="PostBody">
@@ -153,8 +158,8 @@ const PostBody = ({ post }) => {
             </Typography>
           </CardContent>
         </CardActionArea>
-        <CardActions disableSpacing={false}>
-          <IconButton aria-label="add to favorites">
+        <CardActions>
+          <IconButton aria-label="add to favorites" onClick={likePost}>
             <FavoriteIcon />
           </IconButton>
           <IconButton aria-label="share" onClick={handleClick}>
