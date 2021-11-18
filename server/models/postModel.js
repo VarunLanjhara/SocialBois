@@ -6,7 +6,6 @@ const postSchmea = mongoose.Schema({
         type:Number
     },
     author:String,
-    tags:[String],
     file:String
 }, { timestamps: true });
 

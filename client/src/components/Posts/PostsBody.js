@@ -12,7 +12,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import "./PostsBody.css";
-import { CardActionArea } from "@mui/material";
+import { CardActionArea, Tooltip } from "@mui/material";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import CommentIcon from "@mui/icons-material/Comment";
 import { format } from "timeago.js";
@@ -48,9 +48,14 @@ const PostBody = ({ post }) => {
       <Card sx={{ maxWidth: 620 }} className="PostBody">
         <CardHeader
           avatar={
-            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-              {post.author.charAt(0)}
-            </Avatar>
+            <Tooltip arrow title = {post.author}>
+              <Avatar
+                sx={{ bgcolor: red[500], cursor: "pointer" }}
+                aria-label="recipe"
+              >
+                {post.author.charAt(0)}
+              </Avatar>
+            </Tooltip>
           }
           action={
             <IconButton aria-label="settings">
