@@ -24,3 +24,16 @@ export const createPosts = (databoi) => async (dispatch) => {
     console.log(err)
   }
 }
+
+export const deletePosts = (id) => async (dispatch) => {
+  try{
+    await api.deletePosts(id)
+    dispatch({
+      type: "DELETE",
+      payload: id,
+    });
+  }
+  catch(err){
+    console.log(err)
+  }
+}

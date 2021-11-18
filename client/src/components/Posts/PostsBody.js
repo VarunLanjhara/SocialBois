@@ -32,6 +32,8 @@ import Slide from "@mui/material/Slide";
 import FileBase64 from "react-file-base64";
 import { Button } from "@mui/material";
 import { InfoOutlined } from "@mui/icons-material";
+import { deletePosts } from "../../actions/posts";
+import { useDispatch } from "react-redux";
 
 const PostBody = ({ post }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -42,6 +44,8 @@ const PostBody = ({ post }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const dispatch = useDispatch()
 
   const SHARE_URL = "http://localhost:3000/post/";
 
@@ -73,6 +77,12 @@ const PostBody = ({ post }) => {
   const updatePost = (e) => {
     e.preventDefault()
     handleCloseOpen()
+  }
+
+  const deletePost = (e) => {
+    e.preventDefault()
+    setAnchorElmenu(null)
+    dispatch(deletePosts(post._id))
   }
 
   return (
@@ -107,7 +117,7 @@ const PostBody = ({ post }) => {
           }}
         >
           <MenuItem onClick={handleClickOpen}>Edit</MenuItem>
-          <MenuItem onClick={handleClosemenu}>Delete</MenuItem>
+          <MenuItem onClick={deletePost}>Delete</MenuItem>
         </Menu>
         <CardActionArea>
           <CardMedia
@@ -203,10 +213,10 @@ const PostBody = ({ post }) => {
               <TextField
                 id="outlined-basic"
                 label="Body"
-                value = {postData.body}
                 onChange={(e) =>
                   setpostData({ ...postData, body: e.target.value })
                 }
+                value = {postData.body}
                 variant="outlined"
                 multiline
                 rows={4}
