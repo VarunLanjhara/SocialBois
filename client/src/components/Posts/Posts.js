@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Posts.css";
-import { Avatar, TextField } from "@mui/material";
+import { Avatar, TextField, Tooltip } from "@mui/material";
 import PostBody from "./PostsBody.js";
 import { getPosts } from "../../actions/posts.js";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,6 +15,7 @@ import FileBase64 from "react-file-base64";
 import { createPosts } from "../../actions/posts";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import { InfoOutlined } from "@mui/icons-material";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -57,9 +58,10 @@ const Posts = () => {
   };
 
   const createPost = (e) => {
+    e.preventDefault();
     dispatch(createPosts(postData));
     setOpen(false);
-    handleClickalert()
+    handleClickalert();
   };
 
   return (
@@ -71,7 +73,7 @@ const Posts = () => {
         />
         <TextField
           id="outlined-basic"
-          label="Create Blog"
+          label="Create Post"
           variant="outlined"
           style={{ marginLeft: "20px", marginTop: "20px", width: "480px" }}
           onClick={handleClickOpen}
@@ -84,65 +86,85 @@ const Posts = () => {
 
       {/* dialog stuff here */}
 
-      <Dialog
-        open={open}
-        TransitionComponent={Transition}
-        keepMounted
-        aria-describedby="alert-dialog-slide-description"
-      >
-        <DialogTitle>{"Create Post :)"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
-            <TextField
-              id="outlined-basic"
-              label="Creator"
-              onChange={(e) =>
-                setpostData({ ...postData, author: e.target.value })
-              }
-              variant="outlined"
-              style={{
-                width: "530px",
-                marginBottom: "20px",
-                marginTop: "10px",
-              }}
-            />
-            <TextField
-              id="outlined-basic"
-              label="Body"
-              onChange={(e) =>
-                setpostData({ ...postData, body: e.target.value })
-              }
-              variant="outlined"
-              multiline
-              rows={4}
-              style={{ width: "530px", marginBottom: "20px" }}
-            />
-            <FileBase64
-              type="file"
-              multiple={false}
-              accept="image/png, image/gif, image/jpeg"
-              onDone={({ base64 }) =>
-                setpostData({ ...postData, file: base64 })
-              }
-            />
-            {postData.file ? (
-              <img alt="" src={postData.file} style={{ marginTop: "20px" }} />
+      <form>
+        <Dialog
+          open={open}
+          TransitionComponent={Transition}
+          keepMounted
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogTitle>{"Create Post :)"}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+              <TextField
+                id="outlined-basic"
+                label="Creator"
+                onChange={(e) =>
+                  setpostData({ ...postData, author: e.target.value })
+                }
+                variant="outlined"
+                style={{
+                  width: "530px",
+                  marginBottom: "20px",
+                  marginTop: "10px",
+                }}
+              />
+              <TextField
+                id="outlined-basic"
+                label="Body"
+                onChange={(e) =>
+                  setpostData({ ...postData, body: e.target.value })
+                }
+                variant="outlined"
+                multiline
+                rows={4}
+                style={{ width: "530px", marginBottom: "20px" }}
+              />
+              <FileBase64
+                type="file"
+                multiple={false}
+                required
+                accept="image/png, image/gif, image/jpeg"
+                onDone={({ base64 }) =>
+                  setpostData({ ...postData, file: base64 })
+                }
+              />
+              {postData.file ? (
+                <img alt="" src={postData.file} style={{ marginTop: "20px" }} />
+              ) : (
+                <h4>No Image Selected</h4>
+              )}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            {postData.file && postData.body.length >= 25 ? (
+              <Button onClick={createPost}>Create</Button>
             ) : (
-              <h4>No Image Selected</h4>
+              <div>
+                <Tooltip arrow title = "NOTE: Image is mandatory and body must be greater than 25 letters">
+                  <InfoOutlined style = {{position:"relative",top:"8px"}}/>
+                </Tooltip>
+                <Button disabled>Create</Button>
+              </div>
             )}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={createPost}>Create</Button>
-          <Button onClick={handleClose}>Close</Button>
-        </DialogActions>
-      </Dialog>
+            <Button onClick={handleClose}>Close</Button>
+          </DialogActions>
+        </Dialog>
+      </form>
 
       {/* post created alert */}
 
-      <Snackbar open={openalert} autoHideDuration={6000} onClose={handleClosealert}>
-        <Alert onClose={handleClosealert} severity="success" sx={{ width: "100%" }}>
-          Post Created Succesfully 
+      <Snackbar
+        open={openalert}
+        autoHideDuration={6000}
+        onClose={handleClosealert}
+      >
+        <Alert
+          onClose={handleClosealert}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Post Created Succesfully
         </Alert>
       </Snackbar>
     </div>
