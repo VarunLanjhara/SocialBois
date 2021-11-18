@@ -1,7 +1,10 @@
 import express from "express";
 import Post from "../models/postModel.js";
+import mognoose from "mongoose"
 
 const router = express.Router();
+
+//get posts
 
 router.get("/", async (req, res) => {
   try {
@@ -13,6 +16,8 @@ router.get("/", async (req, res) => {
     console.log(err);
   }
 });
+
+//create post
 
 router.post("/", async (req, res) => {
   const post = req.body;
@@ -26,5 +31,20 @@ router.post("/", async (req, res) => {
     console.log(err);
   }
 });
+
+//update post
+
+router.put("/:id",async (req,res) => {
+    const id = req.params.id
+    const post = req.body
+
+    if (!mognoose.Types.ObjectId.isValid(id)){
+        return res.status(403).json("Post id doesnt exists")
+    }
+    else{
+        const updatedpost = await Post.findByIdAndUpdate(id,post,{new:true})
+        res.json(updatedpost)
+    }
+})
 
 export default router;

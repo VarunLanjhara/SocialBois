@@ -76,6 +76,7 @@ const Posts = () => {
           label="Create Post"
           variant="outlined"
           style={{ marginLeft: "20px", marginTop: "20px", width: "480px" }}
+          autoComplete="off"
           onClick={handleClickOpen}
           onKeyDown={handleClickOpen}
         />
@@ -142,7 +143,7 @@ const Posts = () => {
             ) : (
               <div>
                 <Tooltip arrow title = "NOTE: Image is mandatory and body must be greater than 25 letters">
-                  <InfoOutlined style = {{position:"relative",top:"8px"}}/>
+                  <InfoOutlined style = {{position:"relative",top:"8px",cursor:"pointer"}}/>
                 </Tooltip>
                 <Button disabled>Create</Button>
               </div>
