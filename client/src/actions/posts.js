@@ -25,6 +25,19 @@ export const createPosts = (databoi) => async (dispatch) => {
   }
 }
 
+export const updatePosts = (id,post) => async (dispatch) => {
+  try{
+    const {data} = await api.updatePosts(id,post)
+    dispatch({
+      type:"UPDATE",
+      payload:data,
+    })
+  }
+  catch(err){
+    console.log(err)
+  }
+}
+
 export const deletePosts = (id) => async (dispatch) => {
   try{
     await api.deletePosts(id)

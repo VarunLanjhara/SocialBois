@@ -32,7 +32,7 @@ import Slide from "@mui/material/Slide";
 import FileBase64 from "react-file-base64";
 import { Button } from "@mui/material";
 import { InfoOutlined } from "@mui/icons-material";
-import { deletePosts, likePosts } from "../../actions/posts";
+import { deletePosts, likePosts,updatePosts } from "../../actions/posts";
 import { useDispatch } from "react-redux";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
@@ -96,6 +96,7 @@ const PostBody = ({ post }) => {
 
   const updatePost = (e) => {
     e.preventDefault()
+    dispatch(updatePosts(post._id,postData))
     handleCloseOpen()
   }
 
