@@ -20,13 +20,11 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import {
   FacebookShareButton,
-  PinterestShareButton,
   RedditShareButton,
   WhatsappShareButton,
   TwitterShareButton,
   FacebookIcon,
   RedditIcon,
-  PinterestIcon,
   TwitterIcon,
   WhatsappIcon,
 } from "react-share";

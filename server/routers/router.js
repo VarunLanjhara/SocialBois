@@ -47,4 +47,20 @@ router.put("/:id",async (req,res) => {
     }
 })
 
+//delete post
+
+router.delete("/:id",async (req,res) => {
+    const id = req.params.id
+    const post = req.body
+
+    if (!mognoose.Types.ObjectId.isValid(id)){
+        return res.status(403).json("Post id doesnt exists")
+    }
+    else{
+        await Post.findByIdAndDelete(id,() => {
+            res.json("Post deleted sucessfuly")
+        })
+    }
+})
+
 export default router;
