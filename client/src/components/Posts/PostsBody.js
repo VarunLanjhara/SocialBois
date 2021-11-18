@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
@@ -12,7 +12,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import "./PostsBody.css";
-import { CardActionArea, Tooltip } from "@mui/material";
+import { CardActionArea, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Tooltip } from "@mui/material";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import CommentIcon from "@mui/icons-material/Comment";
 import { format } from "timeago.js";
@@ -30,6 +30,10 @@ import {
   TwitterIcon,
   WhatsappIcon,
 } from "react-share";
+import Slide from "@mui/material/Slide";
+import FileBase64 from "react-file-base64";
+import { Button } from "@mui/material";
+import { InfoOutlined } from "@mui/icons-material";
 
 const PostBody = ({ post }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -43,12 +47,42 @@ const PostBody = ({ post }) => {
 
   const SHARE_URL = "http://localhost:3000/post/";
 
+  const [anchorElmenu, setAnchorElmenu] = React.useState(null);
+  const openmenu = Boolean(anchorElmenu);
+  const handleClickmenu = (event) => {
+    setAnchorElmenu(event.currentTarget);
+  };
+  const handleClosemenu = () => {
+    setAnchorElmenu(null);
+  };
+
+  const [opendialog, setOpendialog] = React.useState(false);
+  const [postData, setpostData] = useState({ author: post.author, body: post.body, file: post.file });
+
+  const handleClickOpen = () => {
+    setAnchorElmenu(null);
+    setOpendialog(true);
+  };
+
+  const handleCloseOpen = () => {
+    setOpendialog(false);
+  };
+
+  const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+  })
+
+  const updatePost = (e) => {
+    e.preventDefault()
+    handleCloseOpen()
+  }
+
   return (
     <div>
       <Card sx={{ maxWidth: 620 }} className="PostBody">
         <CardHeader
           avatar={
-            <Tooltip arrow title = {post.author}>
+            <Tooltip arrow title={post.author}>
               <Avatar
                 sx={{ bgcolor: red[500], cursor: "pointer" }}
                 aria-label="recipe"
@@ -58,13 +92,25 @@ const PostBody = ({ post }) => {
             </Tooltip>
           }
           action={
-            <IconButton aria-label="settings">
+            <IconButton aria-label="settings" onClick={handleClickmenu}>
               <MoreVertIcon />
             </IconButton>
           }
           title={post.author}
           subheader={format(post.createdAt)}
         />
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorElmenu}
+          open={openmenu}
+          onClose={handleClosemenu}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+          }}
+        >
+          <MenuItem onClick={handleClickOpen}>Edit</MenuItem>
+          <MenuItem onClick={handleClosemenu}>Delete</MenuItem>
+        </Menu>
         <CardActionArea>
           <CardMedia
             component="img"
@@ -129,6 +175,78 @@ const PostBody = ({ post }) => {
           </IconButton>
         </CardActions>
       </Card>
+
+      {/* dialog stuff here */}
+
+      <form>
+        <Dialog
+          open={opendialog}
+          TransitionComponent={Transition}
+          keepMounted
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogTitle>{"Update Post :)"}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+              <TextField
+                id="outlined-basic"
+                label="Creator"
+                value = {postData.author}
+                onChange={(e) =>
+                  setpostData({ ...postData, author: e.target.value })
+                }
+                variant="outlined"
+                style={{
+                  width: "530px",
+                  marginBottom: "20px",
+                  marginTop: "10px",
+                }}
+              />
+              <TextField
+                id="outlined-basic"
+                label="Body"
+                value = {postData.body}
+                onChange={(e) =>
+                  setpostData({ ...postData, body: e.target.value })
+                }
+                variant="outlined"
+                multiline
+                rows={4}
+                style={{ width: "530px", marginBottom: "20px" }}
+              />
+              <FileBase64
+                type="file"
+                multiple={false}
+                value = {postData.file}
+                required
+                accept="image/png, image/gif, image/jpeg"
+                onDone={({ base64 }) =>
+                  setpostData({ ...postData, file: base64 })
+                }
+              />
+              {postData.file ? (
+                <img alt="" src={postData.file} style={{ marginTop: "20px" }} />
+              ) : (
+                <h4>No Image Selected</h4>
+              )}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            {postData.file && postData.body.length >= 25 ? (
+              <Button onClick = {updatePost}>Update</Button>
+            ) : (
+              <div>
+                <Tooltip arrow title = "NOTE: Image is mandatory and body must be greater than 25 letters">
+                  <InfoOutlined style = {{position:"relative",top:"8px",cursor:"pointer"}}/>
+                </Tooltip>
+                <Button disabled>Update</Button>
+              </div>
+            )}
+            <Button onClick={handleCloseOpen}>Close</Button>
+          </DialogActions>
+        </Dialog>
+      </form>
+
     </div>
   );
 };
