@@ -34,6 +34,8 @@ import { Button } from "@mui/material";
 import { InfoOutlined } from "@mui/icons-material";
 import { deletePosts } from "../../actions/posts";
 import { useDispatch } from "react-redux";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 const PostBody = ({ post }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -46,6 +48,24 @@ const PostBody = ({ post }) => {
   };
 
   const dispatch = useDispatch()
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
+  const [opendeletealert, setOpendeletealert] = React.useState(false);
+
+  const handleClickdeletealert = () => {
+    setOpendeletealert(true);
+  };
+
+  const handleClosedeletealert = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpendeletealert(false);
+  };
 
   const SHARE_URL = "http://localhost:3000/post/";
 
@@ -83,6 +103,7 @@ const PostBody = ({ post }) => {
     e.preventDefault()
     setAnchorElmenu(null)
     dispatch(deletePosts(post._id))
+    handleClickdeletealert()
   }
 
   return (
@@ -254,6 +275,14 @@ const PostBody = ({ post }) => {
           </DialogActions>
         </Dialog>
       </form>
+
+      {/* delete post alert */}
+
+      <Snackbar open={opendeletealert} autoHideDuration={6000} onClose={handleClosedeletealert}>
+        <Alert onClose={handleClosedeletealert} severity="success" sx={{ width: '100%' }}>
+          Post deleted succesfully
+        </Alert>
+      </Snackbar>
 
     </div>
   );

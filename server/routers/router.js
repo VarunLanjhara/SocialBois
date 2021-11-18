@@ -51,7 +51,6 @@ router.put("/:id",async (req,res) => {
 
 router.delete("/:id",async (req,res) => {
     const id = req.params.id
-    const post = req.body
 
     if (!mognoose.Types.ObjectId.isValid(id)){
         return res.status(403).json("Post id doesnt exists")
@@ -61,6 +60,15 @@ router.delete("/:id",async (req,res) => {
             res.json("Post deleted sucessfuly")
         })
     }
+})
+
+//like post
+
+router.put("/:id/like",async (req,res) => {
+    const id = req.params.id
+    const post = await Post.findById(id)
+    likepost = await Post.findByIdAndUpdate(id,{likes:post.likes + 1},{new:true})
+    res.json(likepost)
 })
 
 export default router;
