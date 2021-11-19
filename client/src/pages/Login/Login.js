@@ -1,10 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Login.css";
 import { GoogleLogin } from "react-google-login";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
   useEffect(() => {
+    if (user) {
+      navigate("/");
+    } else {
+      console.log("User is not there");
+    }
     document.title = "Login - SocialBois";
     const signInBtn = document.querySelector("#sign-in-btn");
     const signUpBtn = document.querySelector("#sign-up-btn");
@@ -19,7 +27,7 @@ const Login = () => {
       container.classList.remove("sign-up-mode");
       document.title = "Login - SocialBois";
     });
-  }, []);
+  }, [user, navigate]);
 
   const dispatch = useDispatch();
 
@@ -31,6 +39,7 @@ const Login = () => {
         type: "AUTH",
         data: { result, token },
       });
+      navigate("/");
     } catch (err) {
       console.log(err);
     }
