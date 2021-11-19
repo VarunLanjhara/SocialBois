@@ -19,6 +19,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import WhatshotIcon from "@mui/icons-material/Whatshot";
 import CreateIcon from "@mui/icons-material/Create";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -59,12 +60,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const Navbar = () => {
+const Navbar = ({ user }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -83,6 +85,14 @@ const Navbar = () => {
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  const logout = () => {
+    handleMenuClose();
+    dispatch({
+      type: "LOGOUT",
+    });
+    navigate("/auth");
   };
 
   const menuId = "primary-search-account-menu";
@@ -106,7 +116,7 @@ const Navbar = () => {
       <MenuItem onClick={handleMenuClose}>Profile Settings</MenuItem>
       <MenuItem onClick={handleMenuClose}>Your Blogs</MenuItem>
       <MenuItem onClick={handleMenuClose}>Saved Blogs</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+      <MenuItem onClick={logout}>Logout</MenuItem>
     </Menu>
   );
 

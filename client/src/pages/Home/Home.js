@@ -11,6 +11,7 @@ const Home = () => {
   useEffect(() => {
     if (user) {
       console.log("User is there");
+      document.title = "SocialBois";
     } else {
       navigate("/auth");
     }
@@ -18,7 +19,7 @@ const Home = () => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar user={user} />
       <Posts />
     </div>
   );
