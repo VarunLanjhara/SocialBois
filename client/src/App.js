@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import "./App.css";
-import { useDispatch, useSelector } from "react-redux";
 import Home from "./pages/Home/Home";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Login from "./pages/Login/Login";
 
 function App() {
   return (
@@ -10,6 +10,7 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path = "/auth" element = {<Login />} />
           </Routes>
         </Router>
       </div>
