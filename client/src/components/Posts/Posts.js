@@ -142,8 +142,17 @@ const Posts = () => {
               <Button onClick={createPost}>Create</Button>
             ) : (
               <div>
-                <Tooltip arrow title = "NOTE: Image is mandatory and body must be greater than 25 letters">
-                  <InfoOutlined style = {{position:"relative",top:"8px",cursor:"pointer"}}/>
+                <Tooltip
+                  arrow
+                  title="NOTE: Image is mandatory and body must be greater than 25 letters"
+                >
+                  <InfoOutlined
+                    style={{
+                      position: "relative",
+                      top: "8px",
+                      cursor: "pointer",
+                    }}
+                  />
                 </Tooltip>
                 <Button disabled>Create</Button>
               </div>
