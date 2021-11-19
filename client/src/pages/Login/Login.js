@@ -10,93 +10,97 @@ const Login = () => {
 
     signUpBtn.addEventListener("click", () => {
       container.classList.add("sign-up-mode");
+      document.title = "Register - SocialBois";
     });
 
     signInBtn.addEventListener("click", () => {
       container.classList.remove("sign-up-mode");
+      document.title = "Login - SocialBois";
     });
   }, []);
 
   return (
-    <div class="container">
-      <div class="container__forms">
-        <div class="form">
-          <form action="" class="form__sign-in">
-            <h2 class="form__title">Sign In</h2>
-            <div class="form__input-field">
-              <i class="fas fa-user"></i>
+    <div className="container">
+      <div className="container__forms">
+        <div className="form">
+          <form action="" className="form__sign-in">
+            <h2 className="form__title">Sign In</h2>
+            <div className="form__input-field">
+              <i className="fas fa-user"></i>
               <input type="text" placeholder="Username" required />
             </div>
-            <div class="form__input-field">
-              <i class="fas fa-lock"></i>
+            <div className="form__input-field">
+              <i className="fas fa-lock"></i>
               <input type="password" placeholder="Password" required />
             </div>
-            <input class="form__submit" type="submit" value="Login" />
-            <p class="form__social-text">Or Sign in with social platforms</p>
-            <div class="form__social-media">
-              <a href="#" class="form__social-icons">
-                <i class="fab fa-google"></i>
+            <input className="form__submit" type="submit" value="Login" />
+            <p className="form__social-text">
+              Or Sign in with social platforms
+            </p>
+            <div className="form__social-media">
+              <a href="#" className="form__social-icons">
+                <i className="fab fa-google"></i>
               </a>
             </div>
           </form>
 
-          <form action="" class="form__sign-up">
-            <h2 class="form__title">Sign Up</h2>
-            <div class="form__input-field">
-              <i class="fas fa-user"></i>
+          <form action="" className="form__sign-up">
+            <h2 className="form__title">Sign Up</h2>
+            <div className="form__input-field">
+              <i className="fas fa-user"></i>
               <input type="text" placeholder="Username" required />
             </div>
-            <div class="form__input-field">
-              <i class="fas fa-envelope"></i>
+            <div className="form__input-field">
+              <i className="fas fa-envelope"></i>
               <input type="text" placeholder="Email" required />
             </div>
-            <div class="form__input-field">
-              <i class="fas fa-lock"></i>
+            <div className="form__input-field">
+              <i className="fas fa-lock"></i>
               <input type="password" placeholder="Password" required />
             </div>
 
-            <input class="form__submit" type="submit" value="Sign Up" />
+            <input className="form__submit" type="submit" value="Sign Up" />
 
-            <p class="form__social-text">Or Sign up with social platforms</p>
-            <div class="form__social-media">
-              <a href="#" class="form__social-icons">
-                <i class="fab fa-google"></i>
+            <p className="form__social-text">
+              Or Sign up with social platforms
+            </p>
+            <div className="form__social-media">
+              <a href="#" className="form__social-icons">
+                <i className="fab fa-google"></i>
               </a>
             </div>
           </form>
         </div>
       </div>
-      <div class="container__panels">
-        <div class="panel panel__left">
-          <div class="panel__content">
-            <h3 class="panel__title">New here ?</h3>
-            <p class="panel__paragraph">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Doloremque adipisci tempore aliquid?
+      <div className="container__panels">
+        <div className="panel panel__left">
+          <div className="panel__content">
+            <h3 className="panel__title">New here ?</h3>
+            <p className="panel__paragraph">
+              Are you new here go sign up else (　-_･) ︻デ═一
             </p>
-            <button class="btn btn-transparent" id="sign-up-btn">
+            <button className="btn btn-transparent" id="sign-up-btn">
               Sign Up
             </button>
           </div>
           <img
-            class="panel__image"
+            className="panel__image"
             src="https://stories.freepiklabs.com/storage/11588/market-launch-amico-2628.png"
             alt=""
           />
         </div>
-        <div class="panel panel__right">
-          <div class="panel__content">
-            <h3 class="panel__title">One of us ?</h3>
-            <p class="panel__paragraph">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Doloremque adipisci tempore aliquid?
+        <div className="panel panel__right">
+          <div className="panel__content">
+            <h3 className="panel__title">One of us ?</h3>
+            <p className="panel__paragraph">
+              Are you one of us go sign in else (　-_･) ︻デ═一
             </p>
-            <button class="btn btn-transparent" id="sign-in-btn">
+            <button className="btn btn-transparent" id="sign-in-btn">
               Sign In
             </button>
           </div>
           <img
-            class="panel__image"
+            className="panel__image"
             src="https://www.pngkey.com/png/full/444-4444270_ia-press-play-website.png"
             alt=""
           />
