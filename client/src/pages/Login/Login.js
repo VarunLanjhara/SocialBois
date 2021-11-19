@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 import "./Login.css";
+import { GoogleLogin } from "react-google-login";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
   useEffect(() => {
@@ -19,6 +21,25 @@ const Login = () => {
     });
   }, []);
 
+  const dispatch = useDispatch();
+
+  const googleSuccess = async (res) => {
+    const result = res?.profileObj;
+    const token = res?.tokenId;
+    try {
+      dispatch({
+        type: "AUTH",
+        data: { result, token },
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const googleFailure = () => {
+    console.log("Bad");
+  };
+
   return (
     <div className="container">
       <div className="container__forms">
@@ -26,8 +47,8 @@ const Login = () => {
           <form action="" className="form__sign-in">
             <h2 className="form__title">Sign In</h2>
             <div className="form__input-field">
-              <i className="fas fa-user"></i>
-              <input type="text" placeholder="Username" required />
+              <i className="fas fa-envelope"></i>
+              <input type="email" placeholder="Email" required />
             </div>
             <div className="form__input-field">
               <i className="fas fa-lock"></i>
@@ -38,9 +59,23 @@ const Login = () => {
               Or Sign in with social platforms
             </p>
             <div className="form__social-media">
-              <a href="#" className="form__social-icons">
-                <i className="fab fa-google"></i>
-              </a>
+              <GoogleLogin
+                clientId="779672498657-62nng75ggflkkvmtnsng44fmnepv8slv.apps.googleusercontent.com"
+                render={(renderProps) => (
+                  <a
+                    className="form__social-icons"
+                    style={{ cursor: "pointer" }}
+                    onClick={renderProps.onClick}
+                    disabled={renderProps.disabled}
+                  >
+                    <i className="fab fa-google"></i>
+                  </a>
+                )}
+                buttonText="Login"
+                onSuccess={googleSuccess}
+                onFailure={googleFailure}
+                cookiePolicy={"single_host_origin"}
+              />
             </div>
           </form>
 
@@ -58,6 +93,10 @@ const Login = () => {
               <i className="fas fa-lock"></i>
               <input type="password" placeholder="Password" required />
             </div>
+            <div className="form__input-field">
+              <i className="fas fa-lock"></i>
+              <input type="password" placeholder="Confirm Password" required />
+            </div>
 
             <input className="form__submit" type="submit" value="Sign Up" />
 
@@ -65,9 +104,23 @@ const Login = () => {
               Or Sign up with social platforms
             </p>
             <div className="form__social-media">
-              <a href="#" className="form__social-icons">
-                <i className="fab fa-google"></i>
-              </a>
+              <GoogleLogin
+                clientId="779672498657-62nng75ggflkkvmtnsng44fmnepv8slv.apps.googleusercontent.com"
+                render={(renderProps) => (
+                  <a
+                    className="form__social-icons"
+                    style={{ cursor: "pointer" }}
+                    onClick={renderProps.onClick}
+                    disabled={renderProps.disabled}
+                  >
+                    <i className="fab fa-google"></i>
+                  </a>
+                )}
+                buttonText="Login"
+                onSuccess={googleSuccess}
+                onFailure={googleFailure}
+                cookiePolicy={"single_host_origin"}
+              />
             </div>
           </form>
         </div>
