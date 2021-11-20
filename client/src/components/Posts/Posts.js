@@ -21,7 +21,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const Posts = () => {
+const Posts = ({ user }) => {
   const dispatch = useDispatch();
   const posts = useSelector((posts) => posts.posts);
   useEffect(() => {
@@ -29,7 +29,11 @@ const Posts = () => {
   }, [dispatch]);
 
   const [open, setOpen] = React.useState(false);
-  const [postData, setpostData] = useState({ author: "", body: "", file: "" });
+  const [postData, setpostData] = useState({
+    author: user.result.username,
+    body: "",
+    file: "",
+  });
 
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -58,11 +62,16 @@ const Posts = () => {
   };
 
   const createPost = (e) => {
+    // setpostData({ ...postData, author: user.result.username });
     e.preventDefault();
     dispatch(createPosts(postData));
     setOpen(false);
     handleClickalert();
   };
+
+  useEffect(() => {
+    console.log(user.result.username);
+  }, [user]);
 
   return (
     <div className="Posts">
@@ -97,19 +106,6 @@ const Posts = () => {
           <DialogTitle>{"Create Post :)"}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-slide-description">
-              <TextField
-                id="outlined-basic"
-                label="Creator"
-                onChange={(e) =>
-                  setpostData({ ...postData, author: e.target.value })
-                }
-                variant="outlined"
-                style={{
-                  width: "530px",
-                  marginBottom: "20px",
-                  marginTop: "10px",
-                }}
-              />
               <TextField
                 id="outlined-basic"
                 label="Body"

@@ -4,6 +4,8 @@ import { GoogleLogin } from "react-google-login";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { signIn, signUp } from "../../actions/auth";
+import { Tooltip } from "@mui/material";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -173,7 +175,33 @@ const Login = () => {
               />
             </div>
 
-            <input className="form__submit" type="submit" value="Sign Up" />
+            {registerData.username.length >= 3 &&
+            registerData.password.length >= 8 &&
+            registerData.password === registerData.repeatpassword ? (
+              <input className="form__submit" type="submit" value="Sign Up" />
+            ) : (
+              <div>
+                <input
+                  className="form__submit_disabled"
+                  type="submit"
+                  value="Sign Up"
+                  disabled
+                />
+                <Tooltip
+                  title="NOTE: username length must be greater than 3 letters,email should be valid and both password should match"
+                  arrow
+                >
+                  <InfoOutlinedIcon
+                    style={{
+                      position: "relative",
+                      top: "10px",
+                      left: "20px",
+                      cursor: "pointer",
+                    }}
+                  />
+                </Tooltip>
+              </div>
+            )}
 
             <p className="form__social-text">
               Or Sign up with social platforms

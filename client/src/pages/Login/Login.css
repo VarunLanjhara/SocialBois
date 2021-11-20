@@ -182,6 +182,23 @@ form.form__sign-up {
   transition: 0.5s;
 }
 
+.form__submit_disabled {
+  width: 9.375rem;
+  height: 3.0625rem;
+  border: none;
+  outline: none;
+  border-radius: 3.0625rem;
+  cursor: wait;
+  background-color: #b538d1;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin: 10px 0;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  opacity: 0.2;
+}
+
 .form__submit:hover {
   background-color: #5a1369;
 }
