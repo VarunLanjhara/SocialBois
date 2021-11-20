@@ -3,6 +3,7 @@ import "./Login.css";
 import { GoogleLogin } from "react-google-login";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { signIn, signUp } from "../../actions/auth";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -61,12 +62,12 @@ const Login = () => {
 
   const loginStuff = (e) => {
     e.preventDefault();
-    console.log(loginData);
+    dispatch(signIn(loginData, navigate));
   };
 
   const registerStuff = (e) => {
     e.preventDefault();
-    console.log(registerData);
+    dispatch(signUp(registerData, navigate));
   };
 
   return (

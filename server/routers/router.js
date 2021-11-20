@@ -1,6 +1,7 @@
 import express from "express";
 import Post from "../models/postModel.js";
 import mognoose from "mongoose";
+import auth from "../middlewares/auth.js";
 
 const router = express.Router();
 
@@ -24,6 +25,8 @@ router.post("/", async (req, res) => {
 
   const newPost = new Post(post);
 
+  auth();
+
   try {
     await newPost.save();
     res.json(newPost);
@@ -41,6 +44,7 @@ router.put("/:id", async (req, res) => {
   if (!mognoose.Types.ObjectId.isValid(id)) {
     return res.status(403).json("Post id doesnt exists");
   } else {
+    auth();
     const updatedpost = await Post.findByIdAndUpdate(id, post, { new: true });
     res.json(updatedpost);
   }
@@ -54,6 +58,7 @@ router.delete("/:id", async (req, res) => {
   if (!mognoose.Types.ObjectId.isValid(id)) {
     return res.status(403).json("Post id doesnt exists");
   } else {
+    auth();
     await Post.findByIdAndDelete(id, () => {
       res.json("Post deleted sucessfuly");
     });
@@ -63,10 +68,14 @@ router.delete("/:id", async (req, res) => {
 //like post
 
 router.put("/:id/like", async (req, res) => {
+  auth();
   const id = req.params.id;
   const post = await Post.findById(id);
+  if (!req.userId) {
+    return res.json("Unautharised");
+  }
   await post.updateOne({
-    $push: { likes: 69 },
+    $push: { likes: req.userId },
   });
   res.json("Like added succesfully idiot");
 });

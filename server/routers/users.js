@@ -6,14 +6,14 @@ import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
-router.post("/singin", async (req, res) => {
+router.post("/signin", async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });
     if (!user) {
       res.status(404).json("No user found");
     } else {
-      const hashedpass = bcrypt.compare(password, user.password);
+      const hashedpass = await bcrypt.compare(password, user.password);
       if (!hashedpass) {
         res.status(400).json("Invalid creadentials");
       } else {
@@ -42,21 +42,22 @@ router.post("/signup", async (req, res) => {
     if (user) {
       res.json("User already exists");
     } else {
-      const hashpass = bcrypt.hash(password, 12);
-      const result = User.create({
-        email,
+      const hashpass = await bcrypt.hash(password, 12);
+      const result = await User.create({
+        email: email,
         password: hashpass,
-        username,
+        username: username,
       });
       const token = jwt.sign(
         {
-          email: user.email,
+          email: result.email,
+          id: result._id,
         },
         "blahblah",
         { expiresIn: "4h" }
       );
       res.json({
-        result: user,
+        result: result,
         token,
       });
       res.json(result);
