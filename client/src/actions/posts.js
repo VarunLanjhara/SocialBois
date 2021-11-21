@@ -71,3 +71,15 @@ export const getTrendingPosts = () => async (dispatch) => {
     console.log(err);
   }
 };
+
+export const getSinglePost = (postid) => async (dispatch) => {
+  try {
+    const { data } = await api.fetchSinglePost(postid);
+    dispatch({
+      type: "FETCH_SINGLE",
+      payload: data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};

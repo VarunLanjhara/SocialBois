@@ -45,6 +45,7 @@ import { deletePosts, likePosts, updatePosts } from "../../actions/posts";
 import { useDispatch } from "react-redux";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import { useNavigate } from "react-router-dom";
 
 const PostBody = ({ post, user }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -57,14 +58,27 @@ const PostBody = ({ post, user }) => {
   };
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
   const [opendeletealert, setOpendeletealert] = React.useState(false);
-
   const [openlikealert, setOpenlikealert] = React.useState(false);
+  const [openupdatealert, setOpenalertupdate] = React.useState(false);
+
+  const handleClickupdatealert = () => {
+    setOpenalertupdate(true);
+  };
+
+  const handleCloseupdatealert = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenalertupdate(false);
+  };
 
   const handleClicklikealert = () => {
     setOpenlikealert(true);
@@ -125,6 +139,7 @@ const PostBody = ({ post, user }) => {
     e.preventDefault();
     dispatch(updatePosts(post._id, postData));
     handleCloseOpen();
+    handleClickupdatealert();
   };
 
   const deletePost = (e) => {
@@ -178,7 +193,11 @@ const PostBody = ({ post, user }) => {
           <MenuItem onClick={handleClickOpen}>Edit</MenuItem>
           <MenuItem onClick={deletePost}>Delete</MenuItem>
         </Menu>
-        <CardActionArea>
+        <CardActionArea
+          onClick={() => {
+            navigate(`/post/${post._id}`);
+          }}
+        >
           <CardMedia
             component="img"
             height="194"
@@ -344,6 +363,22 @@ const PostBody = ({ post, user }) => {
           sx={{ width: "100%" }}
         >
           Post deleted succesfully
+        </Alert>
+      </Snackbar>
+
+      {/* update post alert */}
+
+      <Snackbar
+        open={openupdatealert}
+        autoHideDuration={6000}
+        onClose={handleCloseupdatealert}
+      >
+        <Alert
+          onClose={handleCloseupdatealert}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Post updated succesfully
         </Alert>
       </Snackbar>
 

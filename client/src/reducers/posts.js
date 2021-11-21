@@ -16,6 +16,8 @@ export const posts = (posts = [], action) => {
       );
     case "FETCH_TRENDING":
       return action.payload;
+    case "FETCH_SINGLE":
+      return action.payload;
     default:
       return posts;
   }

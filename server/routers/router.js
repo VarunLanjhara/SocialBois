@@ -95,4 +95,19 @@ router.get("/trending", async (req, res) => {
   }
 });
 
+//get single post
+
+router.get("/:postid", async (req, res) => {
+  try {
+    const postsStuff = await Post.findById(req.params.postid);
+    if (!postsStuff) {
+      res.json("No post found");
+    } else {
+      res.json(postsStuff);
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 export default router;

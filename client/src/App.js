@@ -4,6 +4,7 @@ import Home from "./pages/Home/Home";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login/Login";
 import Trending from "./pages/Trending/Trending";
+import SinglePost from "./pages/SinglePost/SinglePost";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/auth" element={<Login />} />
           <Route path="/trending" element={<Trending />} />
+          <Route path="/post/:postid" element={<SinglePost />} />
         </Routes>
       </Router>
     </div>
