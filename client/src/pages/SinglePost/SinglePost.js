@@ -17,11 +17,6 @@ const SinglePost = () => {
   useEffect(() => {
     dispatch(getSinglePost(params.postid));
   }, [dispatch, params]);
-  if (post) {
-    console.log("Post is there");
-  } else {
-    console.log("Post is not there");
-  }
   useEffect(() => {
     if (user) {
       document.title = "SocialBois";
@@ -32,7 +27,7 @@ const SinglePost = () => {
   }, [user, navigate]);
   return (
     <div>
-      <Navbar />
+      <Navbar user={user} />
     </div>
   );
 };

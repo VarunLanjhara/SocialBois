@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import "./NotFound.css";
 import { useNavigate } from "react-router-dom";
@@ -8,9 +8,18 @@ const NotFound = () => {
   const goback = () => {
     navigate("/");
   };
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+  useEffect(() => {
+    if (user) {
+      document.title = "Nothing Found";
+      console.log("User is there");
+    } else {
+      navigate("/auth");
+    }
+  }, [user, navigate]);
   return (
     <div>
-      <Navbar />
+      <Navbar user={user} />
       <div class="containerr">
         <h1>:(</h1>
         <br />

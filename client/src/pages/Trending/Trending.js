@@ -20,7 +20,7 @@ const Trending = () => {
 
   useEffect(() => {
     if (user) {
-      document.title = "SocialBois";
+      document.title = "SocialBois-Trending";
       console.log("User is there");
     } else {
       navigate("/auth");
@@ -29,7 +29,7 @@ const Trending = () => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar user={user} />
       <div className="Posts">
         {trendingPosts.map((post, index) => (
           <PostBody post={post} key={index} user={user} />

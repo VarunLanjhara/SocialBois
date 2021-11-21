@@ -20,6 +20,7 @@ import WhatshotIcon from "@mui/icons-material/Whatshot";
 import CreateIcon from "@mui/icons-material/Create";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { Avatar, Tooltip } from "@mui/material";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -95,6 +96,11 @@ const Navbar = ({ user }) => {
     navigate("/auth");
   };
 
+  const profileredirect = () => {
+    handleMenuClose();
+    navigate("/profile/" + user.result.username);
+  };
+
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -112,7 +118,7 @@ const Navbar = ({ user }) => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={profileredirect}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>Profile Settings</MenuItem>
       <MenuItem onClick={handleMenuClose}>Your Blogs</MenuItem>
       <MenuItem onClick={handleMenuClose}>Saved Blogs</MenuItem>
@@ -148,14 +154,6 @@ const Navbar = ({ user }) => {
           </Badge>
         </IconButton>
         <p>Trending</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          {/* <Badge> */}
-          <CreateIcon />
-          {/* </Badge> */}
-        </IconButton>
-        <p>Create Post</p>
       </MenuItem>
       <MenuItem>
         <IconButton
@@ -239,7 +237,7 @@ const Navbar = ({ user }) => {
               >
                 <NotificationsIcon fontSize="large" />
               </IconButton>
-              <IconButton
+              {/* <IconButton
                 size="large"
                 aria-label="show 17 new notifications"
                 color="inherit"
@@ -248,7 +246,7 @@ const Navbar = ({ user }) => {
                 }}
               >
                 <CreateIcon fontSize="large" />
-              </IconButton>
+              </IconButton> */}
               <IconButton
                 size="large"
                 edge="end"
@@ -258,7 +256,9 @@ const Navbar = ({ user }) => {
                 onClick={handleProfileMenuOpen}
                 color="inherit"
               >
-                <AccountCircle fontSize="large" />
+                <Tooltip title={user.result.username} arrow>
+                  <Avatar src={user.result.pfp} alt="" />
+                </Tooltip>
               </IconButton>
             </Box>
             <Box sx={{ display: { xs: "flex", md: "none" } }}>

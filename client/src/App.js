@@ -6,6 +6,7 @@ import Login from "./pages/Login/Login";
 import Trending from "./pages/Trending/Trending";
 import SinglePost from "./pages/SinglePost/SinglePost";
 import NotFound from "./pages/NotFound/NotFound";
+import Profile from "./pages/Profile/Profile";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/auth" element={<Login />} />
           <Route path="/trending" element={<Trending />} />
           <Route path="/post/:postid" element={<SinglePost />} />
+          <Route path="/profile/:name" element={<Profile />} />
         </Routes>
       </Router>
     </div>
