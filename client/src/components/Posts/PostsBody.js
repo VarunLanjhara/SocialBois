@@ -14,11 +14,14 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import "./PostsBody.css";
 import {
   CardActionArea,
+  Checkbox,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
+  FormControlLabel,
+  FormGroup,
   TextField,
   Tooltip,
 } from "@mui/material";
@@ -67,6 +70,19 @@ const PostBody = ({ post, user }) => {
   const [opendeletealert, setOpendeletealert] = React.useState(false);
   const [openlikealert, setOpenlikealert] = React.useState(false);
   const [openupdatealert, setOpenalertupdate] = React.useState(false);
+  const [openreportalert, setOpenreportalert] = React.useState(false);
+
+  const handleClickreportalert = () => {
+    setOpenreportalert(true);
+  };
+
+  const handleClosereportalert = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenreportalert(false);
+  };
 
   const handleClickupdatealert = () => {
     setOpenalertupdate(true);
@@ -153,6 +169,21 @@ const PostBody = ({ post, user }) => {
     e.preventDefault();
     dispatch(likePosts(post._id, user.result._id));
     handleClicklikealert();
+  };
+
+  const [openreportdialog, setOpenreportdialog] = React.useState(false);
+
+  const handleClickOpenreportdialog = () => {
+    setOpenreportdialog(true);
+  };
+
+  const handleClosereportdialog = () => {
+    setOpenreportdialog(false);
+  };
+
+  const handleClosereportdialogwithalert = () => {
+    setOpenreportdialog(false);
+    handleClickreportalert();
   };
 
   return (
@@ -266,7 +297,10 @@ const PostBody = ({ post, user }) => {
               </RedditShareButton>
             </MenuItem>
           </Menu>
-          <IconButton aria-label="share">
+          <IconButton
+            aria-label="share"
+            onClick={() => handleClickOpenreportdialog()}
+          >
             <ReportProblemIcon />
           </IconButton>
           <IconButton aria-label="share">
@@ -399,6 +433,55 @@ const PostBody = ({ post, user }) => {
             : "Like added succesfully"}
         </Alert>
       </Snackbar>
+
+      {/* report alert stuff */}
+
+      <Snackbar
+        open={openreportalert}
+        autoHideDuration={6000}
+        onClose={handleClosereportalert}
+      >
+        <Alert
+          onClose={handleClosereportalert}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Post reported succesfully
+        </Alert>
+      </Snackbar>
+
+      {/* alert dialog stuff */}
+
+      <Dialog
+        open={openreportdialog}
+        TransitionComponent={Transition}
+        keepMounted
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle>{"Report Post"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            <FormGroup>
+              <FormControlLabel
+                control={<Checkbox defaultChecked />}
+                label="I am dumb"
+              />
+              <FormControlLabel control={<Checkbox />} label="Shit post" />
+              <FormControlLabel control={<Checkbox />} label="Bad post" />
+              <FormControlLabel
+                control={<Checkbox />}
+                label="I dont like dis post"
+              />
+              <FormControlLabel control={<Checkbox />} label="Blah blah" />
+              <FormControlLabel control={<Checkbox />} label="Spom" />
+            </FormGroup>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClosereportdialog}>Close</Button>
+          <Button onClick={handleClosereportdialogwithalert}>Report</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
