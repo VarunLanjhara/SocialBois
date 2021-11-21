@@ -22,10 +22,14 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const Posts = ({ user }) => {
+  const [loading, setloading] = useState(true);
   const dispatch = useDispatch();
   const posts = useSelector((posts) => posts.posts);
   useEffect(() => {
     dispatch(getPosts());
+    setTimeout(() => {
+      setloading(false);
+    }, [1000]);
   }, [dispatch]);
 
   const [open, setOpen] = React.useState(false);
@@ -76,10 +80,19 @@ const Posts = ({ user }) => {
   return (
     <div className="Posts">
       <div className="topstuff">
-        <Avatar
-          alt=""
-          sx={{ width: 54, height: 54, marginLeft: "20px", marginTop: "20px" }}
-        />
+        <Tooltip title={user.result.username} arrow>
+          <Avatar
+            alt=""
+            sx={{
+              width: 54,
+              height: 54,
+              marginLeft: "20px",
+              marginTop: "20px",
+              cursor: "pointer",
+            }}
+            src={user.result.pfp}
+          />
+        </Tooltip>
         <TextField
           id="outlined-basic"
           label="Create Post"
@@ -91,7 +104,7 @@ const Posts = ({ user }) => {
         />
       </div>
       {posts.map((post, index) => (
-        <PostBody key={index} post={post} user={user} />
+        <PostBody key={index} post={post} loading={loading} user={user} />
       ))}
 
       {/* dialog stuff here */}

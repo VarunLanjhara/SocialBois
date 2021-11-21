@@ -26,6 +26,7 @@ import {
   DialogTitle,
   FormControlLabel,
   FormGroup,
+  Skeleton,
   TextField,
   Tooltip,
 } from "@mui/material";
@@ -54,6 +55,8 @@ import MuiAlert from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
 
 const SinglePost = () => {
+  const [loading, setloading] = useState(true);
+  console.log(loading);
   const navigate = useNavigate();
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
   const dispatch = useDispatch();
@@ -61,16 +64,19 @@ const SinglePost = () => {
   const post = useSelector((posts) => posts.posts);
   useEffect(() => {
     dispatch(getSinglePost(params.postid));
-  }, [dispatch, params]);
+    setTimeout(() => {
+      setloading(false);
+    }, [1000]);
+  }, [dispatch, params, loading]);
   console.log(post);
   useEffect(() => {
     if (user) {
-      document.title = "SocialBois";
+      document.title = `${post.body}`;
       console.log("User is there");
     } else {
       navigate("/auth");
     }
-  }, [user, navigate]);
+  }, [user, navigate, post]);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -213,12 +219,16 @@ const SinglePost = () => {
         <CardHeader
           avatar={
             <Tooltip arrow title={post.author}>
-              <Avatar
-                sx={{ bgcolor: red[500], cursor: "pointer" }}
-                aria-label="recipe"
-              >
-                {/* {post.author.charAt(0)} */}R
-              </Avatar>
+              {loading === true ? (
+                <Skeleton variant="circular" width={40} height={40} />
+              ) : (
+                <Avatar
+                  sx={{ bgcolor: red[500], cursor: "pointer" }}
+                  aria-label="recipe"
+                >
+                  {post.author ? post.author.charAt(0) : ""}
+                </Avatar>
+              )}
             </Tooltip>
           }
           action={
@@ -230,8 +240,16 @@ const SinglePost = () => {
               <></>
             )
           }
-          title={post.author}
-          subheader={format(post.createdAt)}
+          title={
+            loading ? <Skeleton variant="text" width="100px" /> : post.author
+          }
+          subheader={
+            loading ? (
+              <Skeleton variant="text" width="80px" />
+            ) : (
+              format(post.createdAt)
+            )
+          }
         />
         <Menu
           id="basic-menu"
@@ -250,93 +268,109 @@ const SinglePost = () => {
             navigate(`/post/${post._id}`);
           }}
         >
-          <CardMedia
-            component="img"
-            height="194"
-            image={post.file}
-            alt="Paella dish"
-          />
+          {loading ? (
+            <Skeleton variant="rectangular" width={620} height={194} />
+          ) : (
+            <CardMedia
+              component="img"
+              height="194"
+              image={post.file}
+              alt="Paella dish"
+            />
+          )}
           <CardContent>
             <Typography variant="body2" color="text.secondary">
-              {post.body}
+              {loading ? <Skeleton variant="text" /> : post.body}
             </Typography>
           </CardContent>
         </CardActionArea>
-        <CardActions>
-          <IconButton aria-label="add to favorites" onClick={likePost}>
-            {/* {post.likes.includes(user.result._id) ? (
-              <FavoriteIcon color="secondary" />
-            ) : ( */}
-            <FavoriteIcon />
-            {/* )} */}
-            <p
-              style={{
-                fontWeight: "bold",
-                fontSize: "21px",
-                marginLeft: "4px",
+        {loading ? (
+          <Skeleton
+            variant="text"
+            style={{ marginLeft: "14px", marginBottom: "30px" }}
+            width="500px"
+          />
+        ) : (
+          <CardActions>
+            <IconButton aria-label="add to favorites" onClick={likePost}>
+              {post.likes ? (
+                post.likes.includes(user.result._id) ? (
+                  <FavoriteIcon color="secondary" />
+                ) : (
+                  <FavoriteIcon />
+                )
+              ) : (
+                <FavoriteIcon />
+              )}
+              <p
+                style={{
+                  fontWeight: "bold",
+                  fontSize: "21px",
+                  marginLeft: "4px",
+                }}
+              >
+                {post.likes ? post.likes.length : 0}
+              </p>
+            </IconButton>
+            <IconButton aria-label="share" onClick={handleClick}>
+              <ShareIcon />
+            </IconButton>
+            <Menu
+              id="demo-positioned-menu"
+              aria-labelledby="demo-positioned-button"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left",
               }}
             >
-              {post.likes ? post.likes.length : 0}
-            </p>
-          </IconButton>
-          <IconButton aria-label="share" onClick={handleClick}>
-            <ShareIcon />
-          </IconButton>
-          <Menu
-            id="demo-positioned-menu"
-            aria-labelledby="demo-positioned-button"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "left",
-            }}
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "left",
-            }}
-          >
-            <MenuItem onClick={handleClose}>
-              <WhatsappShareButton url={`${SHARE_URL + post._id}`}>
-                <WhatsappIcon />
-              </WhatsappShareButton>
-            </MenuItem>
-            <MenuItem onClick={handleClose}>
-              <FacebookShareButton url={`${SHARE_URL + post._id}`}>
-                <FacebookIcon />
-              </FacebookShareButton>
-            </MenuItem>
-            <MenuItem onClick={handleClose}>
-              <TwitterShareButton url={`${SHARE_URL + post._id}`}>
-                <TwitterIcon />
-              </TwitterShareButton>
-            </MenuItem>
-            <MenuItem onClick={handleClose}>
-              <RedditShareButton url={`${SHARE_URL + post._id}`}>
-                <RedditIcon />
-              </RedditShareButton>
-            </MenuItem>
-          </Menu>
-          <IconButton
-            aria-label="share"
-            onClick={() => handleClickOpenreportdialog()}
-          >
-            <ReportProblemIcon />
-          </IconButton>
-          <IconButton aria-label="share">
-            <CommentIcon />
-            <p
-              style={{
-                fontWeight: "bold",
-                fontSize: "21px",
-                marginLeft: "4px",
-              }}
+              <MenuItem onClick={handleClose}>
+                <WhatsappShareButton url={`${SHARE_URL + post._id}`}>
+                  <WhatsappIcon />
+                </WhatsappShareButton>
+              </MenuItem>
+              <MenuItem onClick={handleClose}>
+                <FacebookShareButton url={`${SHARE_URL + post._id}`}>
+                  <FacebookIcon />
+                </FacebookShareButton>
+              </MenuItem>
+              <MenuItem onClick={handleClose}>
+                <TwitterShareButton url={`${SHARE_URL + post._id}`}>
+                  <TwitterIcon />
+                </TwitterShareButton>
+              </MenuItem>
+              <MenuItem onClick={handleClose}>
+                <RedditShareButton url={`${SHARE_URL + post._id}`}>
+                  <RedditIcon />
+                </RedditShareButton>
+              </MenuItem>
+            </Menu>
+            <IconButton
+              aria-label="share"
+              onClick={() => handleClickOpenreportdialog()}
             >
-              0
-            </p>
-          </IconButton>
-        </CardActions>
+              <ReportProblemIcon />
+            </IconButton>
+            <IconButton aria-label="share">
+              <CommentIcon />
+              <p
+                style={{
+                  fontWeight: "bold",
+                  fontSize: "21px",
+                  marginLeft: "4px",
+                }}
+              >
+                0
+              </p>
+            </IconButton>
+          </CardActions>
+        )}
       </Card>
 
       {/* dialog stuff here */}
@@ -449,10 +483,11 @@ const SinglePost = () => {
           severity="success"
           sx={{ width: "100%" }}
         >
-          {/* {post.likes.includes(user.result._id)
-            ? "Like removed succesfully"
-            : "Like added succesfully"} */}
-          WTF
+          {post.likes
+            ? post.likes.includes(user.result._id)
+              ? "Like removed succesfully"
+              : "Like added succesfully"
+            : ""}
         </Alert>
       </Snackbar>
 

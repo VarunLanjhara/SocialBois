@@ -8,12 +8,16 @@ import "./Trending.css";
 
 const Trending = () => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+  const [loading, setloading] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const trendingPosts = useSelector((posts) => posts.posts);
   useEffect(() => {
     dispatch(getTrendingPosts());
+    setTimeout(() => {
+      setloading(false);
+    }, [1000]);
   }, [dispatch]);
 
   console.log(trendingPosts);
@@ -32,7 +36,7 @@ const Trending = () => {
       <Navbar user={user} />
       <div className="Posts">
         {trendingPosts.map((post, index) => (
-          <PostBody post={post} key={index} user={user} />
+          <PostBody post={post} key={index} user={user} loading={loading} />
         ))}
       </div>
     </div>
