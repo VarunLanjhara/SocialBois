@@ -80,4 +80,15 @@ router.get("/:name", async (req, res) => {
   }
 });
 
+//updating user :)
+
+router.put("/:id", async (req, res) => {
+  const user = await User.findByIdAndUpdate(req.params.id, {
+    username: req.body.username,
+    email: req.body.email,
+    bio: req.body.bio,
+  });
+  res.json(user);
+});
+
 export default router;

@@ -1,3 +1,4 @@
+import { DialogActions } from "@mui/material";
 import axios from "axios";
 
 const API = axios.create({
@@ -18,3 +19,4 @@ export const signup = (data) => API.post("/users/signup", data);
 export const fetchTrendingPosts = () => API.get("/posts/trending");
 export const fetchSinglePost = (postid) => API.get(`/posts/${postid}`);
 export const getUserByName = (name) => API.get(`/users/${name}`);
+export const updateUser = (id,data) => API.put(`/users/${id}`,data)

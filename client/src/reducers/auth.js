@@ -8,6 +8,8 @@ export const authReducer = (state = { authData: null }, action) => {
       return { ...state, authData: null };
     case "GET_USER":
       return action.data;
+    case "UPDATE_USER":
+      return action.data;
     default:
       return state;
   }

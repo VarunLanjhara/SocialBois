@@ -25,10 +25,12 @@ const userSchema = mongoose.Schema(
     bio: {
       type: String,
       default: "I am dumb",
+      required: true,
     },
     pfp: {
       type: String,
       default: "",
+      required: true
     },
   },
   { timestamps: true }

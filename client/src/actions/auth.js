@@ -37,3 +37,15 @@ export const getUserByName = (name) => async (dispatch) => {
     console.log(err);
   }
 };
+
+export const updateProfile = (id, dataa) => async (dispatch) => {
+  try {
+    const { data } = await api.updateUser(id, dataa);
+    dispatch({
+      type: "UPDATE_USER",
+      data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
