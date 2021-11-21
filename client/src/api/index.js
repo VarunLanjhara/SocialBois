@@ -17,3 +17,4 @@ export const signin = (data) => API.post("/users/signin", data);
 export const signup = (data) => API.post("/users/signup", data);
 export const fetchTrendingPosts = () => API.get("/posts/trending");
 export const fetchSinglePost = (postid) => API.get(`/posts/${postid}`);
+export const getUserByName = (name) => API.get(`/users/${name}`);

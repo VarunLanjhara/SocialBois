@@ -6,6 +6,8 @@ export const authReducer = (state = { authData: null }, action) => {
     case "LOGOUT":
       localStorage.removeItem("profile");
       return { ...state, authData: null };
+    case "GET_USER":
+      return action.data;
     default:
       return state;
   }
