@@ -216,10 +216,20 @@ const Navbar = ({ user }) => {
                 size="large"
                 aria-label="show 4 new mails"
                 color="inherit"
+                onClick={() => {
+                  navigate("/");
+                }}
               >
                 <HomeIcon fontSize="large" />
               </IconButton>
-              <IconButton size="large" aria-label="add blogs" color="inherit">
+              <IconButton
+                size="large"
+                aria-label="add blogs"
+                color="inherit"
+                onClick={() => {
+                  navigate("/trending");
+                }}
+              >
                 <WhatshotIcon fontSize="large" />
               </IconButton>
               <IconButton

@@ -59,3 +59,15 @@ export const likePosts = (id, userId) => async (dispatch) => {
     console.log(err);
   }
 };
+
+export const getTrendingPosts = () => async (dispatch) => {
+  try {
+    const { data } = await api.fetchTrendingPosts();
+    dispatch({
+      type: "FETCH_TRENDING",
+      payload: data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
