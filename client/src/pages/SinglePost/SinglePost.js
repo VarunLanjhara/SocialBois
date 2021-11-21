@@ -17,7 +17,11 @@ const SinglePost = () => {
   useEffect(() => {
     dispatch(getSinglePost(params.postid));
   }, [dispatch, params]);
-  console.log(post);
+  if (post) {
+    console.log("Post is there");
+  } else {
+    console.log("Post is not there");
+  }
   useEffect(() => {
     if (user) {
       document.title = "SocialBois";

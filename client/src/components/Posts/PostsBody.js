@@ -457,6 +457,7 @@ const PostBody = ({ post, user }) => {
         TransitionComponent={Transition}
         keepMounted
         aria-describedby="alert-dialog-slide-description"
+        // onClose={handleClosereportdialog}
       >
         <DialogTitle>{"Report Post"}</DialogTitle>
         <DialogContent>
