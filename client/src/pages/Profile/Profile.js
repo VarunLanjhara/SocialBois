@@ -89,10 +89,20 @@ const Profile = () => {
             </div>
           </div>
           <div style={{ display: "flex" }}>
-            <Button variant="outlined">Follow</Button>
-            <Button variant="outlined" style={{ marginLeft: "250px" }}>
-              Chat
-            </Button>
+            {user.result._id === profile._id ? (
+              <Button variant="contained" style={{ marginLeft: "100px" }}>
+                Update Profile
+              </Button>
+            ) : (
+              <div style={{ display: "flex" }}>
+                <Button variant="contained" style={{ marginLeft: "100px" }}>
+                  Follow
+                </Button>
+                <Button variant="contained" style={{ marginLeft: "20px" }}>
+                  Chat
+                </Button>
+              </div>
+            )}
           </div>
         </CardContent>
         <CardActions>

@@ -101,6 +101,11 @@ const Navbar = ({ user }) => {
     navigate("/profile/" + user.result.username);
   };
 
+  const updateprofileredirect = () => {
+    handleMenuClose();
+    navigate("/update_profile");
+  };
+
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -119,7 +124,7 @@ const Navbar = ({ user }) => {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={profileredirect}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Profile Settings</MenuItem>
+      <MenuItem onClick={updateprofileredirect}>Update Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>Your Blogs</MenuItem>
       <MenuItem onClick={handleMenuClose}>Saved Blogs</MenuItem>
       <MenuItem onClick={logout}>Logout</MenuItem>

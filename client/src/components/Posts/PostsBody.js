@@ -199,6 +199,9 @@ const PostBody = ({ post, user, loading }) => {
                 <Avatar
                   sx={{ bgcolor: red[500], cursor: "pointer" }}
                   aria-label="recipe"
+                  onClick={() => {
+                    navigate(`/profile/${post.author}`);
+                  }}
                 >
                   {post.author ? post.author.charAt(0) : ""}
                 </Avatar>

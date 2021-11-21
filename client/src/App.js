@@ -7,6 +7,7 @@ import Trending from "./pages/Trending/Trending";
 import SinglePost from "./pages/SinglePost/SinglePost";
 import NotFound from "./pages/NotFound/NotFound";
 import Profile from "./pages/Profile/Profile";
+import UpdateProfile from "./pages/UpdateProfile/UpdateProfile";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/trending" element={<Trending />} />
           <Route path="/post/:postid" element={<SinglePost />} />
           <Route path="/profile/:name" element={<Profile />} />
+          <Route path="/update_profile" element={<UpdateProfile />} />
         </Routes>
       </Router>
     </div>
