@@ -122,7 +122,8 @@ const PostBody = ({ post, user }) => {
 
   const likePost = (e) => {
     e.preventDefault();
-    dispatch(likePosts(post._id, user._id));
+    dispatch(likePosts(post._id, user.result._id));
+    console.log(user.result._id);
   };
 
   return (
