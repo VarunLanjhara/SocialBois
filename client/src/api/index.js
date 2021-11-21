@@ -9,6 +9,6 @@ export const createPosts = (data) => API.post("/posts", data);
 export const updatePosts = (id, updatedPost) =>
   API.put(`/posts/${id}`, updatedPost);
 export const deletePosts = (id) => API.delete(`/posts/${id}`);
-export const likePosts = (id) => API.put(`/posts/${id}/like/`);
+export const likePosts = (id, userId) => API.put(`/posts/${id}/like/`, userId);
 export const signin = (data) => API.post("/users/signin", data);
 export const signup = (data) => API.post("/users/signup", data);

@@ -22,6 +22,14 @@ const userSchema = mongoose.Schema(
       type: Array,
       default: [],
     },
+    bio: {
+      type: String,
+      default: "I am dumb",
+    },
+    pfp: {
+      type: String,
+      default: "",
+    },
   },
   { timestamps: true }
 );

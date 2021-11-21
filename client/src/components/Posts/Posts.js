@@ -33,6 +33,7 @@ const Posts = ({ user }) => {
     author: user.result.username,
     body: "",
     file: "",
+    authorId: user.result._id,
   });
 
   const Alert = React.forwardRef(function Alert(props, ref) {
@@ -62,7 +63,6 @@ const Posts = ({ user }) => {
   };
 
   const createPost = (e) => {
-    // setpostData({ ...postData, author: user.result.username });
     e.preventDefault();
     dispatch(createPosts(postData));
     setOpen(false);
@@ -91,7 +91,7 @@ const Posts = ({ user }) => {
         />
       </div>
       {posts.map((post, index) => (
-        <PostBody key={index} post={post} />
+        <PostBody key={index} post={post} user={user} />
       ))}
 
       {/* dialog stuff here */}

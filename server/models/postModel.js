@@ -1,13 +1,18 @@
 import mongoose from "mongoose";
 
-const postSchmea = mongoose.Schema({
-    body:String,
-    likes:{
-        type:Number
+const postSchmea = mongoose.Schema(
+  {
+    body: String,
+    author: String,
+    authorId: String,
+    file: String,
+    likes: {
+      type: Array,
+      default: [],
     },
-    author:String,
-    file:String
-}, { timestamps: true });
+  },
+  { timestamps: true }
+);
 
-const Post = mongoose.model("post",postSchmea)
-export default Post
+const Post = mongoose.model("post", postSchmea);
+export default Post;

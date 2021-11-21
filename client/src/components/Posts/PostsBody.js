@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
@@ -12,7 +12,16 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import "./PostsBody.css";
-import { CardActionArea, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Tooltip } from "@mui/material";
+import {
+  CardActionArea,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  TextField,
+  Tooltip,
+} from "@mui/material";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import CommentIcon from "@mui/icons-material/Comment";
 import { format } from "timeago.js";
@@ -32,12 +41,12 @@ import Slide from "@mui/material/Slide";
 import FileBase64 from "react-file-base64";
 import { Button } from "@mui/material";
 import { InfoOutlined } from "@mui/icons-material";
-import { deletePosts, likePosts,updatePosts } from "../../actions/posts";
+import { deletePosts, likePosts, updatePosts } from "../../actions/posts";
 import { useDispatch } from "react-redux";
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
-const PostBody = ({ post }) => {
+const PostBody = ({ post, user }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -46,8 +55,8 @@ const PostBody = ({ post }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  
-  const dispatch = useDispatch()
+
+  const dispatch = useDispatch();
 
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -60,7 +69,7 @@ const PostBody = ({ post }) => {
   };
 
   const handleClosedeletealert = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
 
@@ -79,7 +88,11 @@ const PostBody = ({ post }) => {
   };
 
   const [opendialog, setOpendialog] = React.useState(false);
-  const [postData, setpostData] = useState({ author: post.author, body: post.body, file: post.file });
+  const [postData, setpostData] = useState({
+    author: post.author,
+    body: post.body,
+    file: post.file,
+  });
 
   const handleClickOpen = () => {
     setAnchorElmenu(null);
@@ -92,25 +105,25 @@ const PostBody = ({ post }) => {
 
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
-  })
+  });
 
   const updatePost = (e) => {
-    e.preventDefault()
-    dispatch(updatePosts(post._id,postData))
-    handleCloseOpen()
-  }
+    e.preventDefault();
+    dispatch(updatePosts(post._id, postData));
+    handleCloseOpen();
+  };
 
   const deletePost = (e) => {
-    e.preventDefault()
-    setAnchorElmenu(null)
-    dispatch(deletePosts(post._id))
-    handleClickdeletealert()
-  }
+    e.preventDefault();
+    setAnchorElmenu(null);
+    dispatch(deletePosts(post._id));
+    handleClickdeletealert();
+  };
 
   const likePost = (e) => {
-    e.preventDefault()
-    dispatch(likePosts(post._id))
-  }
+    e.preventDefault();
+    dispatch(likePosts(post._id, user._id));
+  };
 
   return (
     <div>
@@ -127,9 +140,13 @@ const PostBody = ({ post }) => {
             </Tooltip>
           }
           action={
-            <IconButton aria-label="settings" onClick={handleClickmenu}>
-              <MoreVertIcon />
-            </IconButton>
+            user.result._id === post.authorId ? (
+              <IconButton aria-label="settings" onClick={handleClickmenu}>
+                <MoreVertIcon />
+              </IconButton>
+            ) : (
+              <></>
+            )
           }
           title={post.author}
           subheader={format(post.createdAt)}
@@ -226,7 +243,7 @@ const PostBody = ({ post }) => {
               <TextField
                 id="outlined-basic"
                 label="Creator"
-                value = {postData.author}
+                value={postData.author}
                 onChange={(e) =>
                   setpostData({ ...postData, author: e.target.value })
                 }
@@ -243,7 +260,7 @@ const PostBody = ({ post }) => {
                 onChange={(e) =>
                   setpostData({ ...postData, body: e.target.value })
                 }
-                value = {postData.body}
+                value={postData.body}
                 variant="outlined"
                 multiline
                 rows={4}
@@ -252,7 +269,7 @@ const PostBody = ({ post }) => {
               <FileBase64
                 type="file"
                 multiple={false}
-                value = {postData.file}
+                value={postData.file}
                 required
                 accept="image/png, image/gif, image/jpeg"
                 onDone={({ base64 }) =>
@@ -268,11 +285,20 @@ const PostBody = ({ post }) => {
           </DialogContent>
           <DialogActions>
             {postData.file && postData.body.length >= 25 ? (
-              <Button onClick = {updatePost}>Update</Button>
+              <Button onClick={updatePost}>Update</Button>
             ) : (
               <div>
-                <Tooltip arrow title = "NOTE: Image is mandatory and body must be greater than 25 letters">
-                  <InfoOutlined style = {{position:"relative",top:"8px",cursor:"pointer"}}/>
+                <Tooltip
+                  arrow
+                  title="NOTE: Image is mandatory and body must be greater than 25 letters"
+                >
+                  <InfoOutlined
+                    style={{
+                      position: "relative",
+                      top: "8px",
+                      cursor: "pointer",
+                    }}
+                  />
                 </Tooltip>
                 <Button disabled>Update</Button>
               </div>
@@ -284,12 +310,19 @@ const PostBody = ({ post }) => {
 
       {/* delete post alert */}
 
-      <Snackbar open={opendeletealert} autoHideDuration={6000} onClose={handleClosedeletealert}>
-        <Alert onClose={handleClosedeletealert} severity="success" sx={{ width: '100%' }}>
+      <Snackbar
+        open={opendeletealert}
+        autoHideDuration={6000}
+        onClose={handleClosedeletealert}
+      >
+        <Alert
+          onClose={handleClosedeletealert}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
           Post deleted succesfully
         </Alert>
       </Snackbar>
-
     </div>
   );
 };
