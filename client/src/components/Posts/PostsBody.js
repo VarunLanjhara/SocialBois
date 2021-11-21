@@ -64,6 +64,20 @@ const PostBody = ({ post, user }) => {
 
   const [opendeletealert, setOpendeletealert] = React.useState(false);
 
+  const [openlikealert, setOpenlikealert] = React.useState(false);
+
+  const handleClicklikealert = () => {
+    setOpenlikealert(true);
+  };
+
+  const handleCloselikealert = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenlikealert(false);
+  };
+
   const handleClickdeletealert = () => {
     setOpendeletealert(true);
   };
@@ -123,7 +137,7 @@ const PostBody = ({ post, user }) => {
   const likePost = (e) => {
     e.preventDefault();
     dispatch(likePosts(post._id, user.result._id));
-    console.log(user.result._id);
+    handleClicklikealert();
   };
 
   return (
@@ -179,7 +193,20 @@ const PostBody = ({ post, user }) => {
         </CardActionArea>
         <CardActions>
           <IconButton aria-label="add to favorites" onClick={likePost}>
-            <FavoriteIcon />
+            {post.likes.includes(user.result._id) ? (
+              <FavoriteIcon color="secondary" />
+            ) : (
+              <FavoriteIcon />
+            )}
+            <p
+              style={{
+                fontWeight: "bold",
+                fontSize: "21px",
+                marginLeft: "4px",
+              }}
+            >
+              {post.likes ? post.likes.length : 0}
+            </p>
           </IconButton>
           <IconButton aria-label="share" onClick={handleClick}>
             <ShareIcon />
@@ -225,6 +252,15 @@ const PostBody = ({ post, user }) => {
           </IconButton>
           <IconButton aria-label="share">
             <CommentIcon />
+            <p
+              style={{
+                fontWeight: "bold",
+                fontSize: "21px",
+                marginLeft: "4px",
+              }}
+            >
+              0
+            </p>
           </IconButton>
         </CardActions>
       </Card>
@@ -241,20 +277,6 @@ const PostBody = ({ post, user }) => {
           <DialogTitle>{"Update Post :)"}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-slide-description">
-              <TextField
-                id="outlined-basic"
-                label="Creator"
-                value={postData.author}
-                onChange={(e) =>
-                  setpostData({ ...postData, author: e.target.value })
-                }
-                variant="outlined"
-                style={{
-                  width: "530px",
-                  marginBottom: "20px",
-                  marginTop: "10px",
-                }}
-              />
               <TextField
                 id="outlined-basic"
                 label="Body"
@@ -322,6 +344,24 @@ const PostBody = ({ post, user }) => {
           sx={{ width: "100%" }}
         >
           Post deleted succesfully
+        </Alert>
+      </Snackbar>
+
+      {/* like post alert */}
+
+      <Snackbar
+        open={openlikealert}
+        autoHideDuration={6000}
+        onClose={handleCloselikealert}
+      >
+        <Alert
+          onClose={handleCloselikealert}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          {post.likes.includes(user.result._id)
+            ? "Like removed succesfully"
+            : "Like added succesfully"}
         </Alert>
       </Snackbar>
     </div>
