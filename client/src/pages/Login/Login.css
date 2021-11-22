@@ -18,7 +18,7 @@ input {
   position: relative;
   width: 100%;
   min-height: 100vh;
-  background: #fff;
+  background: #fff !important;
   overflow: hidden;
 }
 
@@ -206,6 +206,8 @@ form.form__sign-up {
 .form__social-text {
   padding: 0.7rem 0;
   font-size: 1rem;
+  color: black !important;
+  font-weight: 600;
 }
 
 .form__social-media {

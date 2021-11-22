@@ -1,7 +1,6 @@
 import express from "express";
 import Post from "../models/postModel.js";
 import mognoose from "mongoose";
-import auth from "../middlewares/auth.js";
 
 const router = express.Router();
 

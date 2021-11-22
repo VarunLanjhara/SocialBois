@@ -101,7 +101,10 @@ const Login = () => {
               />
             </div>
             <input className="form__submit" type="submit" value="Login" />
-            <p className="form__social-text">
+            <p
+              className="form__social-text"
+              style={{ color: "black !important" }}
+            >
               Or Sign in with social platforms
             </p>
             <div className="form__social-media">
@@ -192,6 +195,7 @@ const Login = () => {
                   arrow
                 >
                   <InfoOutlinedIcon
+                    color="action"
                     style={{
                       position: "relative",
                       top: "10px",

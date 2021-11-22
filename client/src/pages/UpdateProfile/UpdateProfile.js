@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import "./UpdateProfile.css";
 import { useNavigate } from "react-router-dom";
-import { TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import { updateProfile } from "../../actions/auth";
 import { useDispatch } from "react-redux";
 
@@ -33,12 +33,24 @@ const UpdateProfile = () => {
   return (
     <div>
       <Navbar user={user} />
-      <div class="card">
-        <h2>Update Profile</h2>
-        <div class="inputs">
-          <label style={{ color: "black" }}>Username</label>
+      <div style={{ marginTop: "100px", marginLeft: "400px" }}>
+        <h1 style={{ color: "white", fontSize: "35px", marginLeft: "150px" }}>
+          Update Profile
+        </h1>
+        <div style={{ display: "inline-block" }}>
           <input
             type="text"
+            placeholder="Username"
+            style={{
+              width: "400px",
+              height: "50px",
+              borderRadius: "100px",
+              border: "transparent",
+              outline: "none",
+              paddingLeft: "10px",
+              marginLeft: "100px",
+              marginTop: "40px",
+            }}
             onChange={(e) =>
               setupdateProfileData({
                 ...updateProfileData,
@@ -47,11 +59,19 @@ const UpdateProfile = () => {
             }
             value={updateProfileData.username}
           />
-        </div>
-        <div class="inputs">
-          <label style={{ color: "black" }}>Email</label>
           <input
             type="email"
+            placeholder="Email"
+            style={{
+              width: "400px",
+              height: "50px",
+              borderRadius: "100px",
+              border: "transparent",
+              outline: "none",
+              paddingLeft: "10px",
+              marginLeft: "100px",
+              marginTop: "40px",
+            }}
             onChange={(e) =>
               setupdateProfileData({
                 ...updateProfileData,
@@ -60,12 +80,20 @@ const UpdateProfile = () => {
             }
             value={updateProfileData.email}
           />
-        </div>
-        <div class="inputs">
-          <label style={{ color: "black" }}>Bio</label>
           <textarea
-            type="text"
-            rows={10}
+            placeholder="Bio"
+            rows={5}
+            style={{
+              width: "400px",
+              borderRadius: "100px",
+              border: "transparent",
+              outline: "none",
+              paddingLeft: "10px",
+              marginLeft: "100px",
+              marginTop: "40px",
+              padding: "20px",
+              resize: "none",
+            }}
             onChange={(e) =>
               setupdateProfileData({
                 ...updateProfileData,
@@ -75,9 +103,16 @@ const UpdateProfile = () => {
             value={updateProfileData.bio}
           />
         </div>
-        <button class="btn-login" onClick={updateprofile}>
-          Update
-        </button>
+        <Button
+          variant="contained"
+          style={{
+            marginLeft: "200px",
+            marginTop: "30px",
+          }}
+          onClick={updateprofile}
+        >
+          Update Profile
+        </Button>
       </div>
     </div>
   );

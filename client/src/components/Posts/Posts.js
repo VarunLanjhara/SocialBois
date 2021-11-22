@@ -16,6 +16,7 @@ import { createPosts } from "../../actions/posts";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { InfoOutlined } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -23,6 +24,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const Posts = ({ user }) => {
   const [loading, setloading] = useState(true);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const posts = useSelector((posts) => posts.posts);
   useEffect(() => {

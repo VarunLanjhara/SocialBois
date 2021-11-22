@@ -18,7 +18,7 @@ const Home = () => {
   }, [user, navigate]);
 
   return (
-    <div>
+    <div className="home">
       <Navbar user={user} />
       <Posts user={user} />
     </div>
