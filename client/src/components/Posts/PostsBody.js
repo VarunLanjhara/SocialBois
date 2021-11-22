@@ -334,9 +334,12 @@ const PostBody = ({ post, user, loading }) => {
             >
               <ReportProblemIcon />
             </IconButton>
-            <IconButton aria-label="share" onClick = {() => {
-              navigate(`/posts/${post._id}`)
-            }}>
+            <IconButton
+              aria-label="share"
+              onClick={() => {
+                navigate(`/post/${post._id}`);
+              }}
+            >
               <CommentIcon />
               <p
                 style={{
@@ -454,7 +457,7 @@ const PostBody = ({ post, user, loading }) => {
 
       <Snackbar
         open={openlikealert}
-        autoHideDuration={6000}
+        autoHideDuration={500}
         onClose={handleCloselikealert}
       >
         <Alert

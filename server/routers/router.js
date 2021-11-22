@@ -71,12 +71,14 @@ router.put("/:id/like", async (req, res) => {
       await post.updateOne({
         $pull: { likes: req.body.userId },
       });
-      res.json("Like removed succesfully");
+      const newpost1 = await Post.findById(id);
+      res.json(newpost1);
     } else {
       await post.updateOne({
         $push: { likes: req.body.userId },
       });
-      res.json("Like added succesfully");
+      const newpost2 = await Post.findById(id);
+      res.json(newpost2);
     }
   }
 });

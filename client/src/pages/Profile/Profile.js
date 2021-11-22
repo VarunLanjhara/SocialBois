@@ -14,12 +14,25 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Avatar } from "@mui/material";
 import PostBody from "../../components/Posts/PostsBody";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import {
+  FacebookShareButton,
+  RedditShareButton,
+  WhatsappShareButton,
+  TwitterShareButton,
+  FacebookIcon,
+  RedditIcon,
+  TwitterIcon,
+  WhatsappIcon,
+} from "react-share";
 
 const Profile = () => {
   const params = useParams();
   const dispatch = useDispatch();
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
   const [loading, setloading] = useState(true);
+  const SHARE_URL = "http://localhost:3000/profile/";
   const navigate = useNavigate();
   useEffect(() => {
     if (user) {
@@ -47,6 +60,15 @@ const Profile = () => {
 
   const followuser = () => {
     dispatch(followUser(profile._id, user.result._id));
+  };
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   return (
@@ -137,7 +159,45 @@ const Profile = () => {
           </div>
         </CardContent>
         <CardActions>
-          <Button size="small">Share</Button>
+          <Button size="small" onClick={handleClick}>
+            Share
+          </Button>
+          <Menu
+            id="demo-positioned-menu"
+            aria-labelledby="demo-positioned-button"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "left",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "left",
+            }}
+          >
+            <MenuItem onClick={handleClose}>
+              <WhatsappShareButton url={`${SHARE_URL + profile._id}`}>
+                <WhatsappIcon />
+              </WhatsappShareButton>
+            </MenuItem>
+            <MenuItem onClick={handleClose}>
+              <FacebookShareButton url={`${SHARE_URL + profile._id}`}>
+                <FacebookIcon />
+              </FacebookShareButton>
+            </MenuItem>
+            <MenuItem onClick={handleClose}>
+              <TwitterShareButton url={`${SHARE_URL + profile._id}`}>
+                <TwitterIcon />
+              </TwitterShareButton>
+            </MenuItem>
+            <MenuItem onClick={handleClose}>
+              <RedditShareButton url={`${SHARE_URL + profile._id}`}>
+                <RedditIcon />
+              </RedditShareButton>
+            </MenuItem>
+          </Menu>
         </CardActions>
       </Card>
       <div
