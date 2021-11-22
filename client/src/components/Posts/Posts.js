@@ -105,9 +105,11 @@ const Posts = ({ user }) => {
           onKeyDown={handleClickOpen}
         />
       </div>
-      {posts.map((post, index) => (
-        <PostBody key={index} post={post} loading={loading} user={user} />
-      ))}
+      {posts
+        ? posts.map((post, index) => (
+            <PostBody key={index} post={post} loading={loading} user={user} />
+          ))
+        : ""}
 
       {/* dialog stuff here */}
 

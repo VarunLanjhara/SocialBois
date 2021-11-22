@@ -14,6 +14,7 @@ function App() {
     import("./pages/UpdateProfile/UpdateProfile")
   );
   const UsersPosts = lazy(() => import("./pages/UserPosts/UsersPosts"));
+  const SearchResult = lazy(() => import("./pages/SearchResult/SearchResult"));
   return (
     <div className="App">
       <Router>
@@ -26,7 +27,8 @@ function App() {
             <Route path="/post/:postid" element={<SinglePost />} />
             <Route path="/profile/:name" element={<Profile />} />
             <Route path="/update_profile" element={<UpdateProfile />} />
-            <Route path="your_stuff" element={<UsersPosts />} />
+            <Route path="/your_stuff" element={<UsersPosts />} />
+            <Route path="/search/:name" element={<SearchResult />} />
           </Routes>
         </Suspense>
       </Router>

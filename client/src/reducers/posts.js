@@ -19,6 +19,8 @@ export const posts = (posts = [], action) => {
         ...posts,
         comments: action.data.comments,
       };
+    case "SEARCH":
+      return action.data;
     case "FETCH_TRENDING":
       return action.payload;
     case "FETCH_SINGLE":

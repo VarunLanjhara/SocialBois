@@ -152,4 +152,21 @@ router.put("/:postid/comment", async (req, res) => {
   }
 });
 
+//get post by body
+
+router.get("/find/:postname", async (req, res) => {
+  try {
+    const post = await Post.find({
+      body: req.params.postname,
+    });
+    if (post) {
+      res.json(post);
+    } else {
+      res.json("No Posts Found");
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 export default router;

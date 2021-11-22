@@ -78,7 +78,9 @@ const SinglePost = () => {
         >
           Write a comment
         </p>
-        <div style={{ display: "flex", marginTop: "20px" }}>
+        <div
+          style={{ display: "flex", marginTop: "20px", marginBottom: "20px" }}
+        >
           <Tooltip arrow title={user.result.username}>
             <Avatar
               style={{ cursor: "pointer", width: "42px", height: "42px" }}

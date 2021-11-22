@@ -18,9 +18,9 @@ const NotFound = () => {
     }
   }, [user, navigate]);
   return (
-    <div>
+    <div class="containerr">
       <Navbar user={user} />
-      <div class="containerr">
+      <div>
         <h1>:(</h1>
         <br />
         <h2>

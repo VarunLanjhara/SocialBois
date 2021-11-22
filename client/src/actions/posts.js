@@ -107,3 +107,15 @@ export const postComment = (id, user, comment) => async (dispatch) => {
     console.log(err);
   }
 };
+
+export const searchQuery = (name) => async (dispatch) => {
+  try {
+    const { data } = await api.searchQuery(name);
+    dispatch({
+      type: "SEARCH",
+      data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};

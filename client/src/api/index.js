@@ -30,3 +30,5 @@ export const commentOnPost = (id, user, comment) =>
     user: user,
     comment: comment,
   });
+
+export const searchQuery = (name) => API.get(`/posts/find/${name}`);
