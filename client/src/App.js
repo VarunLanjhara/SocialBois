@@ -8,6 +8,7 @@ import SinglePost from "./pages/SinglePost/SinglePost";
 import NotFound from "./pages/NotFound/NotFound";
 import Profile from "./pages/Profile/Profile";
 import UpdateProfile from "./pages/UpdateProfile/UpdateProfile";
+import UsersPosts from "./pages/UserPosts/UsersPosts";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/post/:postid" element={<SinglePost />} />
           <Route path="/profile/:name" element={<Profile />} />
           <Route path="/update_profile" element={<UpdateProfile />} />
+          <Route path="your_stuff" element={<UsersPosts />} />
         </Routes>
       </Router>
     </div>

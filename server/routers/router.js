@@ -109,4 +109,21 @@ router.get("/:postid", async (req, res) => {
   }
 });
 
+//getting current user posts
+
+router.get("/currentboiposts/:userId", async (req, res) => {
+  try {
+    const userposts = await Post.find({
+      authorId: req.params.userId,
+    });
+    if (userposts) {
+      res.send(userposts);
+    } else {
+      res.json("No Posts Found Shit");
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 export default router;

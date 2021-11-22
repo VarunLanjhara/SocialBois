@@ -19,4 +19,5 @@ export const signup = (data) => API.post("/users/signup", data);
 export const fetchTrendingPosts = () => API.get("/posts/trending");
 export const fetchSinglePost = (postid) => API.get(`/posts/${postid}`);
 export const getUserByName = (name) => API.get(`/users/${name}`);
-export const updateUser = (id,data) => API.put(`/users/${id}`,data)
+export const updateUser = (id, data) => API.put(`/users/${id}`, data);
+export const getUserposts = (id) => API.get(`/posts/currentboiposts/${id}`);

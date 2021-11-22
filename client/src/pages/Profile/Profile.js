@@ -4,7 +4,7 @@ import "./Profile.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getUserByName } from "../../actions/auth";
+import { getUserByName, getUserPosts } from "../../actions/auth";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";

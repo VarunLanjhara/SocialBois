@@ -83,3 +83,15 @@ export const getSinglePost = (postid) => async (dispatch) => {
     console.log(err);
   }
 };
+
+export const getUserPosts = (id) => async (dispatch) => {
+  try {
+    const { data } = await api.getUserposts(id);
+    dispatch({
+      type: "GET_USER_POSTS",
+      data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};

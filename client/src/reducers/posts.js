@@ -18,6 +18,8 @@ export const posts = (posts = [], action) => {
       return action.payload;
     case "FETCH_SINGLE":
       return action.payload;
+    case "GET_USER_POSTS":
+      return action.data;
     default:
       return posts;
   }
