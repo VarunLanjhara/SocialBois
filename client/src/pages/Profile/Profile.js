@@ -48,6 +48,10 @@ const Profile = () => {
     dispatch(getUserByName(params.name));
   }, [dispatch, params]);
 
+  if (!profile.username) {
+    navigate("/");
+  }
+
   const profileposts = useSelector((user) => user.posts);
   useEffect(() => {
     dispatch(getUserPosts(profile._id));

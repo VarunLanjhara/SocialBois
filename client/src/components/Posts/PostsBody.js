@@ -390,7 +390,11 @@ const PostBody = ({ post, user, loading }) => {
                 }
               />
               {postData.file ? (
-                <img alt="" src={postData.file} style={{ marginTop: "20px" }} />
+                <img
+                  alt=""
+                  src={postData.file}
+                  style={{ marginTop: "20px", width: "620px", height: "194px" }}
+                />
               ) : (
                 <h4>No Image Selected</h4>
               )}

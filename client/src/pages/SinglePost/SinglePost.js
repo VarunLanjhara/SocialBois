@@ -30,6 +30,9 @@ const SinglePost = () => {
       setloading(false);
     }, [1000]);
   }, [dispatch, params]);
+  if (!post._id) {
+    navigate("/");
+  }
   useEffect(() => {
     if (user) {
       document.title = `${post.body}`;
@@ -76,7 +79,7 @@ const SinglePost = () => {
           Write a comment
         </p>
         <div style={{ display: "flex", marginTop: "20px" }}>
-          <Tooltip arrow title="Varun">
+          <Tooltip arrow title={user.result.username}>
             <Avatar
               style={{ cursor: "pointer", width: "42px", height: "42px" }}
             />
@@ -93,8 +96,9 @@ const SinglePost = () => {
             <InputBase
               sx={{
                 width: "600px",
-                paddingLeft: "20px",
+                paddingLeft: "10px",
                 marginLeft: "10px",
+                paddingTop: "4px",
               }}
               placeholder={`Enter shit here ${user.result.username} :)`}
               onChange={(e) => setcommentdata(e.target.value)}
@@ -124,7 +128,7 @@ const SinglePost = () => {
                     fontWeight: "bold",
                     fontSize: "16px",
                     position: "relative",
-                    top: "8px",
+                    top: "-6px",
                     left: "10px",
                   }}
                 >
