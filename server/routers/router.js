@@ -143,7 +143,8 @@ router.put("/:postid/comment", async (req, res) => {
         },
       },
     });
-    res.json(post);
+    const getpost = await Post.findById(req.params.postid);
+    res.json(getpost);
   } catch (err) {
     console.log(err);
   }

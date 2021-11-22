@@ -8,12 +8,13 @@ import { useNavigate } from "react-router-dom";
 import PostBody from "../../components/Posts/PostsBody";
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
-import DirectionsIcon from "@mui/icons-material/Directions";
 import { Avatar, Tooltip } from "@mui/material";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const SinglePost = () => {
   const [loading, setloading] = useState(true);
@@ -38,9 +39,24 @@ const SinglePost = () => {
     }
   }, [user, navigate, post]);
 
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   const comment = (event) => {
     setcommentdata("");
     event.preventDefault();
+    handleClick();
     dispatch(postComment(post._id, user.result, commentdata));
   };
 
@@ -80,7 +96,7 @@ const SinglePost = () => {
                 paddingLeft: "20px",
                 marginLeft: "10px",
               }}
-              placeholder="Enter shit here varun :)"
+              placeholder={`Enter shit here ${user.result.username} :)`}
               onChange={(e) => setcommentdata(e.target.value)}
               value={commentdata}
             />
@@ -118,6 +134,14 @@ const SinglePost = () => {
             ))
           : ""}
       </div>
+
+      {/* comment alert here */}
+
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+          Comment added succesfully
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
