@@ -128,4 +128,25 @@ router.get("/currentboiposts/:userId", async (req, res) => {
   }
 });
 
+//comment on a post
+
+router.put("/:postid/comment", async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.postid);
+    const user = req.body.user;
+    const comment = req.body.comment;
+    await post.updateOne({
+      $push: {
+        comments: {
+          user,
+          comment,
+        },
+      },
+    });
+    res.json(post);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 export default router;

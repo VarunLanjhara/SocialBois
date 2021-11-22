@@ -17,9 +17,9 @@ import { Avatar, Tooltip } from "@mui/material";
 
 const SinglePost = () => {
   const [loading, setloading] = useState(true);
-  console.log(loading);
   const navigate = useNavigate();
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+  const [commentdata, setcommentdata] = useState("");
   const dispatch = useDispatch();
   const params = useParams();
   const post = useSelector((posts) => posts.posts);
@@ -29,7 +29,6 @@ const SinglePost = () => {
       setloading(false);
     }, [1000]);
   }, [dispatch, params]);
-  console.log(post);
   useEffect(() => {
     if (user) {
       document.title = `${post.body}`;
@@ -38,6 +37,11 @@ const SinglePost = () => {
       navigate("/auth");
     }
   }, [user, navigate, post]);
+
+  const comment = (event) => {
+    event.preventDefault();
+    console.log(commentdata);
+  };
 
   return (
     <div>
@@ -67,10 +71,16 @@ const SinglePost = () => {
               height: "40px",
               marginLeft: "10px",
             }}
+            onSubmit={comment}
           >
             <InputBase
-              sx={{ width: "600px", paddingLeft: "20px", marginLeft: "10px" }}
+              sx={{
+                width: "600px",
+                paddingLeft: "20px",
+                marginLeft: "10px",
+              }}
               placeholder="Enter shit here varun :)"
+              onChange={(e) => setcommentdata(e.target.value)}
             />
           </Paper>
         </div>

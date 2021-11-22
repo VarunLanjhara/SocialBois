@@ -113,8 +113,6 @@ const Navbar = ({ user }) => {
 
   const [searchQuery, setSearchQuery] = useState("");
 
-  console.log(searchQuery);
-
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
