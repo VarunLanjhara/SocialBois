@@ -95,3 +95,15 @@ export const getUserPosts = (id) => async (dispatch) => {
     console.log(err);
   }
 };
+
+export const postComment = (id, user, comment) => async (dispatch) => {
+  try {
+    const { data } = await api.commentOnPost(id, user, comment);
+    dispatch({
+      type: "POST_COMMENT",
+      data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};

@@ -24,3 +24,9 @@ export const followUser = (id, userId) =>
   API.put(`/users/${id}/follow`, {
     userId: userId,
   });
+
+export const commentOnPost = (id, user, comment) =>
+  API.put(`/posts/${id}/comment`, {
+    user: user,
+    comment: comment,
+  });

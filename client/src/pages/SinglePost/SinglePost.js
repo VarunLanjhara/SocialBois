@@ -3,7 +3,7 @@ import "./SinglePost.css";
 import Navbar from "../../components/Navbar/Navbar";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getSinglePost } from "../../actions/posts.js";
+import { getSinglePost, postComment } from "../../actions/posts.js";
 import { useNavigate } from "react-router-dom";
 import PostBody from "../../components/Posts/PostsBody";
 import Paper from "@mui/material/Paper";
@@ -39,8 +39,9 @@ const SinglePost = () => {
   }, [user, navigate, post]);
 
   const comment = (event) => {
+    setcommentdata("");
     event.preventDefault();
-    console.log(commentdata);
+    dispatch(postComment(post._id, user.result, commentdata));
   };
 
   return (
@@ -81,59 +82,41 @@ const SinglePost = () => {
               }}
               placeholder="Enter shit here varun :)"
               onChange={(e) => setcommentdata(e.target.value)}
+              value={commentdata}
             />
           </Paper>
         </div>
-        <div
-          style={{ display: "flex", marginTop: "25px", marginBottom: "15px" }}
-        >
-          <Tooltip arrow title="Varun">
-            <Avatar
-              style={{ cursor: "pointer", width: "42px", height: "42px" }}
-            />
-          </Tooltip>
-          <p
-            style={{
-              color: "white",
-              fontWeight: "bold",
-              fontSize: "16px",
-              position: "relative",
-              top: "8px",
-              left: "10px",
-            }}
-          >
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into
-          </p>
-        </div>
-        <div
-          style={{ display: "flex", marginTop: "25px", marginBottom: "25px" }}
-        >
-          <Tooltip arrow title="Varun">
-            <Avatar
-              style={{ cursor: "pointer", width: "42px", height: "42px" }}
-            />
-          </Tooltip>
-          <p
-            style={{
-              color: "white",
-              fontWeight: "bold",
-              fontSize: "16px",
-              position: "relative",
-              top: "8px",
-              left: "10px",
-            }}
-          >
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into
-          </p>
-        </div>
+        {post.comments
+          ? post.comments.map((comment, index) => (
+              <div
+                style={{
+                  display: "flex",
+                  marginTop: "25px",
+                  marginBottom: "15px",
+                }}
+                key={index}
+              >
+                <Tooltip arrow title={comment.user.username}>
+                  <Avatar
+                    style={{ cursor: "pointer", width: "42px", height: "42px" }}
+                    src={comment.user.pfp}
+                  />
+                </Tooltip>
+                <p
+                  style={{
+                    color: "white",
+                    fontWeight: "bold",
+                    fontSize: "16px",
+                    position: "relative",
+                    top: "8px",
+                    left: "10px",
+                  }}
+                >
+                  {comment.comment}
+                </p>
+              </div>
+            ))
+          : ""}
       </div>
     </div>
   );

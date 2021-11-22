@@ -14,6 +14,10 @@ export const posts = (posts = [], action) => {
       return posts.map((post) =>
         post._id === action.payload._id ? action.payload : post
       );
+    case "POST_COMMENT":
+      return posts.map((post) =>
+        post._id === action.payload._id ? action.payload : post
+      );
     case "FETCH_TRENDING":
       return action.payload;
     case "FETCH_SINGLE":

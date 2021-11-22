@@ -334,7 +334,9 @@ const PostBody = ({ post, user, loading }) => {
             >
               <ReportProblemIcon />
             </IconButton>
-            <IconButton aria-label="share">
+            <IconButton aria-label="share" onClick = {() => {
+              navigate(`/posts/${post._id}`)
+            }}>
               <CommentIcon />
               <p
                 style={{
@@ -343,7 +345,7 @@ const PostBody = ({ post, user, loading }) => {
                   marginLeft: "4px",
                 }}
               >
-                0
+                {post.comments ? post.comments.length : 0}
               </p>
             </IconButton>
           </CardActions>
