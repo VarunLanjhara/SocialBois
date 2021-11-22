@@ -111,6 +111,10 @@ const Navbar = ({ user }) => {
     navigate("/your_stuff");
   };
 
+  const [searchQuery, setSearchQuery] = useState("");
+
+  console.log(searchQuery);
+
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -215,6 +219,7 @@ const Navbar = ({ user }) => {
               <StyledInputBase
                 placeholder="Search…"
                 inputProps={{ "aria-label": "search" }}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
             </Search>
             <Box sx={{ flexGrow: 1 }} />

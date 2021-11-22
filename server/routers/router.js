@@ -85,9 +85,11 @@ router.put("/:id/like", async (req, res) => {
 
 router.get("/trending", async (req, res) => {
   try {
-    const postsStuff = await Post.find().sort({
-      likes: -1,
-    });
+    const postsStuff = await Post.find()
+      .sort({
+        likes: -1,
+      })
+      .limit(5);
     res.json(postsStuff);
   } catch (err) {
     console.log(err);
