@@ -4,7 +4,8 @@ import "./Profile.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { followUser, getUserByName, getUserPosts } from "../../actions/auth";
+import { followUser, getUserByName } from "../../actions/auth";
+import { getUserPosts } from "../../actions/posts";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -12,11 +13,13 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Avatar } from "@mui/material";
+import PostBody from "../../components/Posts/PostsBody";
 
 const Profile = () => {
   const params = useParams();
   const dispatch = useDispatch();
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+  const [loading, setloading] = useState(true);
   const navigate = useNavigate();
   useEffect(() => {
     if (user) {
@@ -32,12 +35,22 @@ const Profile = () => {
     dispatch(getUserByName(params.name));
   }, [dispatch, params]);
 
+  const profileposts = useSelector((user) => user.posts);
+  useEffect(() => {
+    dispatch(getUserPosts(profile._id));
+    setTimeout(() => {
+      setloading(false);
+    }, [1000]);
+  }, [dispatch, params, profile]);
+
+  console.log(profileposts);
+
   const followuser = () => {
     dispatch(followUser(profile._id, user.result._id));
   };
 
   return (
-    <div>
+    <div style={{ overflowX: "hidden" }}>
       <Navbar user={user} />
       <Card
         sx={{
@@ -110,7 +123,11 @@ const Profile = () => {
                   style={{ marginLeft: "100px" }}
                   onClick={followuser}
                 >
-                  Follow
+                  {profile.followers
+                    ? profile.followers.includes(user.result._id)
+                      ? "UnFollow"
+                      : "Follow"
+                    : ""}
                 </Button>
                 <Button variant="contained" style={{ marginLeft: "20px" }}>
                   Chat
@@ -123,6 +140,18 @@ const Profile = () => {
           <Button size="small">Share</Button>
         </CardActions>
       </Card>
+      <div
+        style={{
+          position: "relative",
+          left: "600px",
+          top: "100px",
+          height: "100vh",
+        }}
+      >
+        {profileposts.map((post, index) => (
+          <PostBody post={post} user={user} loading={loading} />
+        ))}
+      </div>
     </div>
   );
 };

@@ -1,4 +1,3 @@
-import { DialogActions } from "@mui/material";
 import axios from "axios";
 
 const API = axios.create({
