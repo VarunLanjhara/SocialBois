@@ -460,9 +460,11 @@ const PostBody = ({ post, user, loading }) => {
           severity="success"
           sx={{ width: "100%" }}
         >
-          {post.likes.includes(user.result._id)
-            ? "Like removed succesfully"
-            : "Like added succesfully"}
+          {post.likes
+            ? post.likes.includes(user.result._id)
+              ? "Like removed succesfully"
+              : "Like added succesfully"
+            : ""}
         </Alert>
       </Snackbar>
 

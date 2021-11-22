@@ -90,7 +90,13 @@ const Profile = () => {
           </div>
           <div style={{ display: "flex" }}>
             {user.result._id === profile._id ? (
-              <Button variant="contained" style={{ marginLeft: "100px" }}>
+              <Button
+                variant="contained"
+                style={{ marginLeft: "100px" }}
+                onClick={() => {
+                  navigate("/update_profile");
+                }}
+              >
                 Update Profile
               </Button>
             ) : (
