@@ -21,3 +21,7 @@ export const fetchSinglePost = (postid) => API.get(`/posts/${postid}`);
 export const getUserByName = (name) => API.get(`/users/${name}`);
 export const updateUser = (id, data) => API.put(`/users/${id}`, data);
 export const getUserposts = (id) => API.get(`/posts/currentboiposts/${id}`);
+export const followUser = (id, userId) =>
+  API.put(`/users/${id}/follow`, {
+    userId: userId,
+  });

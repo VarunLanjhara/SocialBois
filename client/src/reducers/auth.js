@@ -10,6 +10,8 @@ export const authReducer = (state = { authData: null }, action) => {
       return action.data;
     case "UPDATE_USER":
       return action.data;
+    case "FOLLOW_USER":
+      return action.data;
     default:
       return state;
   }

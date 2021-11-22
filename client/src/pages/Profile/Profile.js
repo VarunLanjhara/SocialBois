@@ -4,7 +4,7 @@ import "./Profile.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getUserByName, getUserPosts } from "../../actions/auth";
+import { followUser, getUserByName, getUserPosts } from "../../actions/auth";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -31,6 +31,10 @@ const Profile = () => {
   useEffect(() => {
     dispatch(getUserByName(params.name));
   }, [dispatch, params]);
+
+  const followuser = () => {
+    dispatch(followUser(profile._id, user.result._id));
+  };
 
   return (
     <div>
@@ -101,7 +105,11 @@ const Profile = () => {
               </Button>
             ) : (
               <div style={{ display: "flex" }}>
-                <Button variant="contained" style={{ marginLeft: "100px" }}>
+                <Button
+                  variant="contained"
+                  style={{ marginLeft: "100px" }}
+                  onClick={followuser}
+                >
                   Follow
                 </Button>
                 <Button variant="contained" style={{ marginLeft: "20px" }}>

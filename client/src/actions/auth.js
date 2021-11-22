@@ -49,3 +49,15 @@ export const updateProfile = (id, dataa) => async (dispatch) => {
     console.log(err);
   }
 };
+
+export const followUser = (id, userId) => async (dispatch) => {
+  try {
+    const { data } = await api.followUser(id, userId);
+    dispatch({
+      type: "FOLLOW_USER",
+      data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
