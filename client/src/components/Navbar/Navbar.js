@@ -131,7 +131,6 @@ const Navbar = ({ user }) => {
       <MenuItem onClick={profileredirect}>Profile</MenuItem>
       <MenuItem onClick={updateprofileredirect}>Update Profile</MenuItem>
       <MenuItem onClick={yourpostsredirect}>Your Posts</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Saved Blogs</MenuItem>
       <MenuItem onClick={logout}>Logout</MenuItem>
     </Menu>
   );

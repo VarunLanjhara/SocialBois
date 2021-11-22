@@ -91,4 +91,32 @@ router.put("/:id", async (req, res) => {
   res.json(user);
 });
 
+//follow following stuff :)
+
+router.put("/:userId/follow", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    const currentuser = await User.findById(req.body.userId);
+    if (!user.followers.includes(req.body.userId)) {
+      await user.updateOne({
+        $push: { followers: req.body.userId },
+      });
+      await currentuser.updateOne({
+        $push: { following: req.params.userId },
+      });
+      res.json("User has been followed");
+    } else {
+      await user.updateOne({
+        $pull: { followers: req.body.userId },
+      });
+      await currentuser.updateOne({
+        $pull: { following: req.params.userId },
+      });
+      res.json("User has been unfollowed");
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 export default router;
