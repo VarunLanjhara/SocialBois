@@ -17,6 +17,7 @@
 - Users can search posts and Skeleton Ui stuff
 - Users can see their posts
 - Cool 404 page and preloader :)
+- Trending page
 ```
 ## Screenshots
 <img src = "https://lh4.googleusercontent.com/sWZz75KqaQS89X4MqXu6m8n6fSP-_e-PI3_CnxUnj34wvPL6MbJB16enE9yQ-dhh7ddV-W9zXmQXQw=w1392-h664-rw" alt = "" width = "900px" height = "500px">
