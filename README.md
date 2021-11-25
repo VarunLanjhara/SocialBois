@@ -1,12 +1,14 @@
 # [SocialBois](https://socialbois.netlify.app/)
-# A social media site built using mern stack with redux and material ui
+## Introduction
+SocialBois is a social media website built using mern stack with redux and material ui with multiple features.
+Star the repo if you like what you see.
 ## Technologies Used
-1. React
-2. Redux
-3. Material Ui
-4. Node js
-5. Express
-6. Mongodb
+- React
+- Redux
+- Material Ui
+- Node js
+- Express
+- Mongodb
 ## Features And Functionalities
 ```bash
 - Full authentication functionality (Login,Register,Logout)
@@ -31,3 +33,7 @@
 <img src = "https://lh6.googleusercontent.com/UDhfHqtfZtq1ngB8QaSdGNhMzM8oXLJRAYj9nJ1wgIvVpbQFuzhdMMbhjO-73C0HXZaPlP9jyMn_BQ=w1360-h615-rw" alt = "" width = "900px" height = "500px">
 <img src = "https://lh6.googleusercontent.com/cIoRlljbBTxqIB2CAA6QajrB9nGLcM_uhw8NXBHxaDNervswJCIjKXak1Lc9xfLrJQ84LQYk3X5yEw=w1360-h615-rw" alt = "" width = "900px" height = "500px">
 <img src = "https://lh3.googleusercontent.com/4bdWx4hidHEdRhdhTP2wLA7Z52nwdflbRlCB1mM01cCIES_y-xbcxS47Bx4NuDIr7yJ0BAr3UWaVjQ=w1360-h615-rw" alt = "" width = "900px" height = "500px">
+
+# What's Next?
+ - Chat feature
+ - Notification feature
