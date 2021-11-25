@@ -14,9 +14,9 @@
 - Users can like,share,report and comment on posts
 - Users can follow,unfollow and share others users profile
 - Users can update their profile
-- Users can search posts and Skeleton Ui stuff
+- Users can search posts
 - Users can see their posts
-- Cool 404 page and preloader :)
+- Cool 404 page,preloader and shimmer effects :)
 - Trending page
 ```
 ## Screenshots
