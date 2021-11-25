@@ -14,12 +14,12 @@ Star the repo if you like what you see.
 - Full authentication functionality (Login,Register,Logout)
 - Users can create,delete,update posts and can see others posts
 - Users can like,share,report and comment on posts
-- Users can follow,unfollow and share others users profile
+- Users can follow,unfollow and share other users profile
 - Users can update their profile
 - Users can search posts
-- Users can see their posts
 - Cool 404 page,preloader and shimmer effects :)
 - Trending page
+- And more
 ```
 ## Screenshots
 <img src = "https://lh4.googleusercontent.com/sWZz75KqaQS89X4MqXu6m8n6fSP-_e-PI3_CnxUnj34wvPL6MbJB16enE9yQ-dhh7ddV-W9zXmQXQw=w1392-h664-rw" alt = "" width = "900px" height = "500px">
