@@ -15,4 +15,6 @@
 - Users can follow or unfollow others users
 - Users can update their profile
 - Users can search posts and Skeleton Ui stuff
+- Users can see their posts
+- Cool 404 page and preloader :)
 ```
