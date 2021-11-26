@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import "./NotFound.css";
 import { useNavigate } from "react-router-dom";
+import jwt_decode from "jwt-decode";
+import { useSelector, useDispatch } from "react-redux";
+import { getUserById } from "../../actions/auth";
 
 const NotFound = () => {
   const navigate = useNavigate();
@@ -12,14 +15,22 @@ const NotFound = () => {
   useEffect(() => {
     if (user) {
       document.title = "Nothing Found";
-      console.log("User is there");
     } else {
       navigate("/auth");
     }
   }, [user, navigate]);
+
+  const dispatch = useDispatch();
+
+  const decodedtoken = jwt_decode(user.token);
+  const currentuser = useSelector((user) => user.authReducer);
+  useEffect(() => {
+    dispatch(getUserById(decodedtoken.id));
+  }, [dispatch]);
+
   return (
     <div class="containerr">
-      <Navbar user={user} />
+      <Navbar user={currentuser} />
       <div>
         <h1>:(</h1>
         <br />

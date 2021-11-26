@@ -13,11 +13,10 @@ dotenv.config({
 
 app.use(cors());
 app.use(express.json());
-
 app.use("/posts", postRouter);
 app.use("/users", userRouter);
 
-const PORT = 8000 | process.env.PORT;
+const PORT = process.env.PORT || 8000;
 
 const MONGO_URL = process.env.MONGO_URL;
 

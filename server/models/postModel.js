@@ -3,8 +3,9 @@ import mongoose from "mongoose";
 const postSchmea = mongoose.Schema(
   {
     body: String,
-    author: String,
-    authorId: String,
+    username: String,
+    userId: String,
+    userPfp: String,
     file: String,
     likes: {
       type: Array,

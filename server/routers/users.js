@@ -20,12 +20,12 @@ router.post("/signin", async (req, res) => {
         const token = jwt.sign(
           {
             email: user.email,
+            id: user._id,
           },
           "blahblah",
           { expiresIn: "4h" }
         );
         res.json({
-          result: user,
           token,
         });
       }
@@ -39,8 +39,9 @@ router.post("/signup", async (req, res) => {
   const { username, email, password } = req.body;
   try {
     const user = await User.findOne({ email });
-    if (user) {
-      res.json("User already exists");
+    const userbyusername = await User.findOne({ username });
+    if (user || userbyusername) {
+      console.log("User already exists");
     } else {
       const hashpass = await bcrypt.hash(password, 12);
       const result = await User.create({
@@ -57,7 +58,6 @@ router.post("/signup", async (req, res) => {
         { expiresIn: "4h" }
       );
       res.json({
-        result: result,
         token,
       });
       res.json(result);
@@ -87,6 +87,7 @@ router.put("/:id", async (req, res) => {
     username: req.body.username,
     email: req.body.email,
     bio: req.body.bio,
+    pfp: req.body.pfp,
   });
   res.json(user);
 });
@@ -104,7 +105,8 @@ router.put("/:userId/follow", async (req, res) => {
       await currentuser.updateOne({
         $push: { following: req.params.userId },
       });
-      res.json(user);
+      const userboi = await User.findById(req.params.userId);
+      res.json(userboi);
     } else {
       await user.updateOne({
         $pull: { followers: req.body.userId },
@@ -112,8 +114,20 @@ router.put("/:userId/follow", async (req, res) => {
       await currentuser.updateOne({
         $pull: { following: req.params.userId },
       });
-      res.json(user);
+      const userboi2 = await User.findById(req.params.userId);
+      res.json(userboi2);
     }
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+//getting user by id :)
+
+router.get("/getuser/:userid", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userid);
+    res.json(user);
   } catch (err) {
     console.log(err);
   }

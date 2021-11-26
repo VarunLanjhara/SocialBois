@@ -72,17 +72,17 @@ export const getTrendingPosts = () => async (dispatch) => {
   }
 };
 
-export const getSinglePost = (postid) => async (dispatch) => {
-  try {
-    const { data } = await api.fetchSinglePost(postid);
-    dispatch({
-      type: "FETCH_SINGLE",
-      payload: data,
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
+// export const getSinglePost = (postid) => async (dispatch) => {
+//   try {
+//     const { data } = await api.fetchSinglePost(postid);
+//     dispatch({
+//       type: "FETCH_SINGLE",
+//       payload: data,
+//     });
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
 
 export const getUserPosts = (id) => async (dispatch) => {
   try {
@@ -96,17 +96,17 @@ export const getUserPosts = (id) => async (dispatch) => {
   }
 };
 
-export const postComment = (id, user, comment) => async (dispatch) => {
-  try {
-    const { data } = await api.commentOnPost(id, user, comment);
-    dispatch({
-      type: "POST_COMMENT",
-      data,
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
+// export const postComment = (id, user, comment) => async (dispatch) => {
+//   try {
+//     const { data } = await api.commentOnPost(id, user, comment);
+//     dispatch({
+//       type: "POST_COMMENT",
+//       data,
+//     });
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
 
 export const searchQuery = (name) => async (dispatch) => {
   try {

@@ -7,6 +7,8 @@ import { useDispatch } from "react-redux";
 import { getUserPosts } from "../../actions/posts";
 import { useParams } from "react-router-dom";
 import PostBody from "../../components/Posts/PostsBody";
+import jwt_decode from "jwt-decode";
+import { getUserById } from "../../actions/auth";
 
 const UsersPosts = () => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
@@ -18,25 +20,31 @@ const UsersPosts = () => {
   useEffect(() => {
     if (user) {
       document.title = "SocialBois - Your Stuff";
-      console.log("User is there");
     } else {
       navigate("/auth");
     }
   }, [user, navigate]);
 
+  let decodedtoken = "";
+
+  user ? (decodedtoken = jwt_decode(user.token)) : navigate("/auth");
+
+  const currentuser = useSelector((user) => user.authReducer);
+  useEffect(() => {
+    dispatch(getUserById(decodedtoken.id));
+  }, [dispatch]);
+
   const profileposts = useSelector((user) => user.posts);
   useEffect(() => {
-    dispatch(getUserPosts(user.result._id));
+    dispatch(getUserPosts(currentuser._id));
     setTimeout(() => {
       setloading(false);
     }, [1000]);
-  }, [dispatch, params, user]);
-
-  console.log(profileposts);
+  }, [dispatch, params, currentuser]);
 
   return (
-    <div>
-      <Navbar user={user} />
+    <div style={{ overflow: "hidden" }}>
+      <Navbar user={currentuser} />
       <div
         style={{
           marginTop: "100px",
@@ -46,9 +54,29 @@ const UsersPosts = () => {
       >
         {profileposts
           ? profileposts.map((post, index) => (
-              <PostBody key={index} post={post} loading={loading} user={user} />
+              <PostBody
+                key={index}
+                post={post}
+                loading={loading}
+                user={currentuser}
+              />
             ))
           : ""}
+        {profileposts.length === 0 ? (
+          <div
+            style={{
+              marginLeft: "100px",
+              marginTop: "280px",
+              width: "100vw",
+            }}
+          >
+            <h1 style={{ color: "white", fontSize: "30px" }}>
+              You have no posts go create some posts else 🔪
+            </h1>
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

@@ -21,6 +21,9 @@ import CreateIcon from "@mui/icons-material/Create";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Avatar, Tooltip } from "@mui/material";
+import ChatIcon from "@mui/icons-material/Chat";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -54,9 +57,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     padding: theme.spacing(1, 1, 1, 0),
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
-    width: "100%",
+    width: "400px",
     [theme.breakpoints.up("md")]: {
-      width: "20ch",
+      width: "330px",
     },
   },
 }));
@@ -98,7 +101,7 @@ const Navbar = ({ user }) => {
 
   const profileredirect = () => {
     handleMenuClose();
-    navigate("/profile/" + user.result.username);
+    navigate("/profile/" + user.username);
   };
 
   const updateprofileredirect = () => {
@@ -193,6 +196,24 @@ const Navbar = ({ user }) => {
     </Menu>
   );
 
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   return (
     <div>
       <Box sx={{ flexGrow: 1, backgroundColor: "#001935" }}>
@@ -237,7 +258,9 @@ const Navbar = ({ user }) => {
                   navigate("/");
                 }}
               >
-                <HomeIcon fontSize="large" />
+                <Tooltip title="Home" arrow>
+                  <HomeIcon fontSize="large" />
+                </Tooltip>
               </IconButton>
               <IconButton
                 size="large"
@@ -247,25 +270,30 @@ const Navbar = ({ user }) => {
                   navigate("/trending");
                 }}
               >
-                <WhatshotIcon fontSize="large" />
+                <Tooltip title="Trending" arrow>
+                  <WhatshotIcon fontSize="large" />
+                </Tooltip>
               </IconButton>
               <IconButton
                 size="large"
                 aria-label="show 4 new mails"
                 color="inherit"
+                onClick={() => handleClick()}
               >
-                <NotificationsIcon fontSize="large" />
+                <Tooltip title="Chat" arrow>
+                  <ChatIcon fontSize="large" />
+                </Tooltip>
               </IconButton>
-              {/* <IconButton
+              <IconButton
                 size="large"
-                aria-label="show 17 new notifications"
+                aria-label="show 4 new mails"
                 color="inherit"
-                onClick={() => {
-                  navigate("/create");
-                }}
+                onClick={() => handleClick()}
               >
-                <CreateIcon fontSize="large" />
-              </IconButton> */}
+                <Tooltip title="Notifications" arrow>
+                  <NotificationsIcon fontSize="large" />
+                </Tooltip>
+              </IconButton>
               <IconButton
                 size="large"
                 edge="end"
@@ -275,8 +303,8 @@ const Navbar = ({ user }) => {
                 onClick={handleProfileMenuOpen}
                 color="inherit"
               >
-                <Tooltip title={user.result.username} arrow>
-                  <Avatar src={user.result.pfp} alt="" />
+                <Tooltip title={user.username} arrow>
+                  <Avatar src={user.pfp} alt="" />
                 </Tooltip>
               </IconButton>
             </Box>
@@ -297,6 +325,13 @@ const Navbar = ({ user }) => {
         {renderMobileMenu}
         {renderMenu}
       </Box>
+
+      {/* alert messages */}
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="info" sx={{ width: "100%" }}>
+          This feature will be available soon (i guess)
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

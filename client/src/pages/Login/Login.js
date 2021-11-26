@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from "react";
 import "./Login.css";
-import { GoogleLogin } from "react-google-login";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { signIn, signUp } from "../../actions/auth";
 import { Tooltip } from "@mui/material";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import CircularProgress from "@mui/material/CircularProgress";
+import slugify from "react-slugify";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const Login = () => {
   const navigate = useNavigate();
@@ -24,52 +31,71 @@ const Login = () => {
     if (user) {
       navigate("/");
     } else {
-      console.log("User is not there");
     }
-    document.title = "Login - SocialBois";
+    document.title = "SocialBois - Login";
     const signInBtn = document.querySelector("#sign-in-btn");
     const signUpBtn = document.querySelector("#sign-up-btn");
     const container = document.querySelector(".container");
 
     signUpBtn.addEventListener("click", () => {
       container.classList.add("sign-up-mode");
-      document.title = "Register - SocialBois";
+      document.title = "SocialBois - Register";
     });
 
     signInBtn.addEventListener("click", () => {
       container.classList.remove("sign-up-mode");
-      document.title = "Login - SocialBois";
+      document.title = "SocialBois - Login";
     });
   }, [user, navigate]);
 
   const dispatch = useDispatch();
 
-  const googleSuccess = async (res) => {
-    const result = res?.profileObj;
-    const token = res?.tokenId;
-    try {
-      dispatch({
-        type: "AUTH",
-        data: { result, token },
-      });
-      navigate("/");
-    } catch (err) {
-      console.log(err);
-    }
+  const [open, setOpen] = React.useState(false);
+  const [openreg, setOpenreg] = React.useState(false);
+  const [clickLoader, setclickLoader] = React.useState(false);
+
+  const handleClickreg = () => {
+    setOpenreg(true);
   };
 
-  const googleFailure = () => {
-    console.log("Bad");
+  const handleClosereg = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenreg(false);
+  };
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
   };
 
   const loginStuff = (e) => {
+    setclickLoader(true);
     e.preventDefault();
     dispatch(signIn(loginData, navigate));
+    setTimeout(() => {
+      handleClick();
+      setclickLoader(false);
+    }, [3000]);
   };
 
   const registerStuff = (e) => {
+    setclickLoader(true);
     e.preventDefault();
     dispatch(signUp(registerData, navigate));
+    setTimeout(() => {
+      handleClickreg();
+      setclickLoader(false);
+    }, [3000]);
   };
 
   return (
@@ -100,32 +126,11 @@ const Login = () => {
                 }
               />
             </div>
-            <input className="form__submit" type="submit" value="Login" />
-            <p
-              className="form__social-text"
-              style={{ color: "black !important" }}
-            >
-              Or Sign in with social platforms
-            </p>
-            <div className="form__social-media">
-              <GoogleLogin
-                clientId="779672498657-62nng75ggflkkvmtnsng44fmnepv8slv.apps.googleusercontent.com"
-                render={(renderProps) => (
-                  <a
-                    className="form__social-icons"
-                    style={{ cursor: "pointer" }}
-                    onClick={renderProps.onClick}
-                    disabled={renderProps.disabled}
-                  >
-                    <i className="fab fa-google"></i>
-                  </a>
-                )}
-                buttonText="Login"
-                onSuccess={googleSuccess}
-                onFailure={googleFailure}
-                cookiePolicy={"single_host_origin"}
-              />
-            </div>
+            {clickLoader === true ? (
+              <CircularProgress />
+            ) : (
+              <input className="form__submit" type="submit" value="Login" />
+            )}
           </form>
 
           <form action="" className="form__sign-up" onSubmit={registerStuff}>
@@ -137,7 +142,10 @@ const Login = () => {
                 placeholder="Username"
                 required
                 onChange={(e) =>
-                  setRegisterData({ ...registerData, username: e.target.value })
+                  setRegisterData({
+                    ...registerData,
+                    username: e.target.value,
+                  })
                 }
               />
             </div>
@@ -179,19 +187,28 @@ const Login = () => {
             </div>
 
             {registerData.username.length >= 3 &&
+            registerData.username.length <= 16 &&
             registerData.password.length >= 8 &&
             registerData.password === registerData.repeatpassword ? (
-              <input className="form__submit" type="submit" value="Sign Up" />
+              clickLoader === true ? (
+                <CircularProgress />
+              ) : (
+                <input
+                  className="form__submit"
+                  type="submit"
+                  value="Register"
+                />
+              )
             ) : (
               <div>
                 <input
                   className="form__submit_disabled"
                   type="submit"
-                  value="Sign Up"
+                  value="Register"
                   disabled
                 />
                 <Tooltip
-                  title="NOTE: username length must be greater than 3 letters,email should be valid and both password should match"
+                  title="NOTE: username length must be greater than 3 letters and smoler than 16 letters,email should be valid and both password should match and must be greater than 8 letters"
                   arrow
                 >
                   <InfoOutlinedIcon
@@ -206,29 +223,6 @@ const Login = () => {
                 </Tooltip>
               </div>
             )}
-
-            <p className="form__social-text">
-              Or Sign up with social platforms
-            </p>
-            <div className="form__social-media">
-              <GoogleLogin
-                clientId="779672498657-62nng75ggflkkvmtnsng44fmnepv8slv.apps.googleusercontent.com"
-                render={(renderProps) => (
-                  <a
-                    className="form__social-icons"
-                    style={{ cursor: "pointer" }}
-                    onClick={renderProps.onClick}
-                    disabled={renderProps.disabled}
-                  >
-                    <i className="fab fa-google"></i>
-                  </a>
-                )}
-                buttonText="Login"
-                onSuccess={googleSuccess}
-                onFailure={googleFailure}
-                cookiePolicy={"single_host_origin"}
-              />
-            </div>
           </form>
         </div>
       </div>
@@ -266,6 +260,18 @@ const Login = () => {
           />
         </div>
       </div>
+
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+          Invalid Credentials
+        </Alert>
+      </Snackbar>
+
+      <Snackbar open={openreg} autoHideDuration={6000} onClose={handleClosereg}>
+        <Alert onClose={handleClosereg} severity="error" sx={{ width: "100%" }}>
+          User already exists
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

@@ -4,7 +4,8 @@ import "./Profile.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { followUser, getUserByName } from "../../actions/auth";
+import { followUser, getUserById } from "../../actions/auth";
+import { getUserByName } from "../../actions/profile.js";
 import { getUserPosts } from "../../actions/posts";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -12,7 +13,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Avatar } from "@mui/material";
+import { Avatar, Skeleton } from "@mui/material";
 import PostBody from "../../components/Posts/PostsBody";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -26,29 +27,48 @@ import {
   TwitterIcon,
   WhatsappIcon,
 } from "react-share";
+import jwt_decode from "jwt-decode";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const Profile = () => {
   const params = useParams();
   const dispatch = useDispatch();
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
   const [loading, setloading] = useState(true);
-  const SHARE_URL = "http://localhost:3000/profile/";
+  const [loadingprofile, setloadingprofile] = useState(true);
+  const SHARE_URL = "https://socialbois.netlify.app/profile/";
   const navigate = useNavigate();
   useEffect(() => {
     if (user) {
       document.title = `SocialBois - ${params.name}`;
-      console.log("User is there");
     } else {
       navigate("/auth");
     }
   }, [user, navigate, params]);
 
-  const profile = useSelector((user) => user.authReducer);
+  let decodedtoken = "";
+
+  user ? (decodedtoken = jwt_decode(user.token)) : navigate("/auth");
+
+  const currentuser = useSelector((user) => user.authReducer);
+  useEffect(() => {
+    dispatch(getUserById(decodedtoken.id));
+  }, [dispatch]);
+
+  const profile = useSelector((user) => user.profileReducer);
   useEffect(() => {
     dispatch(getUserByName(params.name));
-  }, [dispatch, params]);
+    setTimeout(() => {
+      setloadingprofile(false);
+    }, [3000]);
+  }, [dispatch, params, user, currentuser]);
 
-  if (!profile.username) {
+  if (profile === []) {
     navigate("/");
   }
 
@@ -58,12 +78,25 @@ const Profile = () => {
     setTimeout(() => {
       setloading(false);
     }, [1000]);
-  }, [dispatch, params, profile]);
+  }, [dispatch, profile]);
 
-  console.log(profileposts);
+  const handleClickalert = () => {
+    setOpenalert(true);
+  };
+
+  const handleClosealert = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenalert(false);
+  };
 
   const followuser = () => {
-    dispatch(followUser(profile._id, user.result._id));
+    dispatch(followUser(profile._id, currentuser._id));
+    setTimeout(() => {
+      handleClickalert();
+    }, [2000]);
   };
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -75,9 +108,11 @@ const Profile = () => {
     setAnchorEl(null);
   };
 
+  const [openalert, setOpenalert] = React.useState(false);
+
   return (
     <div style={{ overflowX: "hidden" }}>
-      <Navbar user={user} />
+      <Navbar user={currentuser} />
       <Card
         sx={{
           maxWidth: 445,
@@ -86,53 +121,96 @@ const Profile = () => {
           position: "absolute",
         }}
       >
-        <Avatar
-          src={profile.pfp}
-          style={{
-            width: "50px",
-            height: "50px",
-            position: "relative",
-            top: "10px",
-            left: "10px",
-          }}
-        />
+        {loadingprofile === true ? (
+          <Skeleton
+            variant="circular"
+            width={50}
+            height={50}
+            style={{ position: "relative", top: "10px", left: "10px" }}
+          />
+        ) : (
+          <Avatar
+            src={profile.pfp}
+            style={{
+              width: "50px",
+              height: "50px",
+              position: "relative",
+              top: "10px",
+              left: "10px",
+            }}
+          />
+        )}
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {profile.username}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {profile.bio}
-          </Typography>
+          {loadingprofile === true ? (
+            <Skeleton variant="text" width={120} />
+          ) : (
+            <Typography gutterBottom variant="h5" component="div">
+              {profile.username}
+            </Typography>
+          )}
+          {loadingprofile === true ? (
+            <Skeleton variant="text" width={250} />
+          ) : (
+            <Typography variant="body2" color="text.secondary">
+              {profile.bio}
+            </Typography>
+          )}
           <div style={{ display: "flex", padding: "20px" }}>
             <div>
-              <p style={{ fontWeight: "bold", fontSize: "20px" }}>Followers</p>
-              <p
-                style={{
-                  fontWeight: "bold",
-                  marginLeft: "38px",
-                  marginTop: "4px",
-                  color: "gray",
-                }}
-              >
-                {profile.followers ? profile.followers.length : 0}
-              </p>
+              {loadingprofile === true ? (
+                <Skeleton variant="text" width={100} />
+              ) : (
+                <p style={{ fontWeight: "bold", fontSize: "20px" }}>
+                  Followers
+                </p>
+              )}
+              {loadingprofile === true ? (
+                <Skeleton variant="text" width={40} />
+              ) : (
+                <p
+                  style={{
+                    fontWeight: "bold",
+                    marginLeft: "38px",
+                    marginTop: "4px",
+                    color: "gray",
+                  }}
+                >
+                  {profile.followers && profile.followers.length}
+                </p>
+              )}
             </div>
             <div style={{ marginLeft: "170px" }}>
-              <p style={{ fontWeight: "bold", fontSize: "20px" }}>Following</p>
-              <p
-                style={{
-                  fontWeight: "bold",
-                  marginLeft: "38px",
-                  marginTop: "4px",
-                  color: "gray",
-                }}
-              >
-                {profile.following ? profile.following.length : 0}
-              </p>
+              {loadingprofile === true ? (
+                <Skeleton variant="text" width={100} />
+              ) : (
+                <p style={{ fontWeight: "bold", fontSize: "20px" }}>
+                  Following
+                </p>
+              )}
+              {loadingprofile === true ? (
+                <Skeleton variant="text" width={40} />
+              ) : (
+                <p
+                  style={{
+                    fontWeight: "bold",
+                    marginLeft: "38px",
+                    marginTop: "4px",
+                    color: "gray",
+                  }}
+                >
+                  {profile.following && profile.following.length}
+                </p>
+              )}
             </div>
           </div>
           <div style={{ display: "flex" }}>
-            {user.result._id === profile._id ? (
+            {loadingprofile === true ? (
+              <Skeleton
+                variant="text"
+                width={300}
+                style={{ position: "relative", left: "50px" }}
+              />
+            ) : currentuser._id === profile._id ? (
               <Button
                 variant="contained"
                 style={{ marginLeft: "100px" }}
@@ -146,11 +224,11 @@ const Profile = () => {
               <div style={{ display: "flex" }}>
                 <Button
                   variant="contained"
-                  style={{ marginLeft: "100px" }}
+                  style={{ marginLeft: "80px", marginRight: "10px" }}
                   onClick={followuser}
                 >
                   {profile.followers
-                    ? profile.followers.includes(user.result._id)
+                    ? profile.followers.includes(currentuser._id)
                       ? "UnFollow"
                       : "Follow"
                     : ""}
@@ -182,22 +260,22 @@ const Profile = () => {
             }}
           >
             <MenuItem onClick={handleClose}>
-              <WhatsappShareButton url={`${SHARE_URL + profile._id}`}>
+              <WhatsappShareButton url={`${SHARE_URL + profile.username}`}>
                 <WhatsappIcon />
               </WhatsappShareButton>
             </MenuItem>
             <MenuItem onClick={handleClose}>
-              <FacebookShareButton url={`${SHARE_URL + profile._id}`}>
+              <FacebookShareButton url={`${SHARE_URL + profile.username}`}>
                 <FacebookIcon />
               </FacebookShareButton>
             </MenuItem>
             <MenuItem onClick={handleClose}>
-              <TwitterShareButton url={`${SHARE_URL + profile._id}`}>
+              <TwitterShareButton url={`${SHARE_URL + profile.username}`}>
                 <TwitterIcon />
               </TwitterShareButton>
             </MenuItem>
             <MenuItem onClick={handleClose}>
-              <RedditShareButton url={`${SHARE_URL + profile._id}`}>
+              <RedditShareButton url={`${SHARE_URL + profile.username}`}>
                 <RedditIcon />
               </RedditShareButton>
             </MenuItem>
@@ -212,10 +290,43 @@ const Profile = () => {
           height: "100vh",
         }}
       >
-        {profileposts.map((post, index) => (
-          <PostBody post={post} user={user} loading={loading} />
-        ))}
+        {profileposts
+          ? profileposts.map((post, index) => (
+              <PostBody post={post} user={currentuser} loading={loading} />
+            ))
+          : ""}
+        {profileposts.length === 0 ? (
+          <div
+            style={{
+              overflow: "hidden",
+              position: "relative",
+              top: "130px",
+            }}
+          >
+            <h1 style={{ color: "white" }}>
+              Seems like dis idiot has no posts 🤷‍♀️
+            </h1>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
+      {/* user follow snackbar */}
+      <Snackbar
+        open={openalert}
+        autoHideDuration={6000}
+        onClose={handleClosealert}
+      >
+        <Alert
+          onClose={handleClosealert}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          {profile.followers && profile.followers.includes(currentuser._id)
+            ? `You started following ${profile.username}`
+            : `You unfollowed ${profile.username}`}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

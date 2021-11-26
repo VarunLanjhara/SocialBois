@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
@@ -46,10 +46,12 @@ import FileBase64 from "react-file-base64";
 import { Button } from "@mui/material";
 import { InfoOutlined } from "@mui/icons-material";
 import { deletePosts, likePosts, updatePosts } from "../../actions/posts";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
+import { getUserById } from "../../actions/auth";
+import ContentCutIcon from "@mui/icons-material/ContentCut";
 
 const PostBody = ({ post, user, loading }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -121,7 +123,7 @@ const PostBody = ({ post, user, loading }) => {
     setOpendeletealert(false);
   };
 
-  const SHARE_URL = "http://localhost:3000/post/";
+  const SHARE_URL = "https://socialbois.netlify.app/post/";
 
   const [anchorElmenu, setAnchorElmenu] = React.useState(null);
   const openmenu = Boolean(anchorElmenu);
@@ -134,10 +136,21 @@ const PostBody = ({ post, user, loading }) => {
 
   const [opendialog, setOpendialog] = React.useState(false);
   const [postData, setpostData] = useState({
-    author: post.author,
+    username: post.username,
+    userId: post.userId,
+    userPfp: post.userPfp,
     body: post.body,
     file: post.file,
   });
+
+  useEffect(() => {
+    setpostData({
+      ...postData,
+      username: user.username,
+      userId: user._id,
+      userPfp: user.pfp,
+    });
+  }, [user]);
 
   const handleClickOpen = () => {
     setAnchorElmenu(null);
@@ -168,7 +181,7 @@ const PostBody = ({ post, user, loading }) => {
 
   const likePost = (e) => {
     e.preventDefault();
-    dispatch(likePosts(post._id, user.result._id));
+    dispatch(likePosts(post._id, user._id));
     handleClicklikealert();
   };
 
@@ -187,29 +200,38 @@ const PostBody = ({ post, user, loading }) => {
     handleClickreportalert();
   };
 
+  // const postuser = useSelector((user) => user.authReducer);
+  // useEffect(() => {
+  //   dispatch(getUserById(post.author));
+  // }, [dispatch, post]);
+
+  const handleClosewithcopy = () => {
+    handleClose();
+    navigator.clipboard.writeText(SHARE_URL + post._id);
+  };
+
   return (
     <div>
       <Card sx={{ maxWidth: 620 }} className="PostBody">
         <CardHeader
           avatar={
-            <Tooltip arrow title={post.author}>
+            <Tooltip arrow title={post.username}>
               {loading === true ? (
                 <Skeleton variant="circular" width={40} height={40} />
               ) : (
                 <Avatar
-                  sx={{ bgcolor: red[500], cursor: "pointer" }}
+                  style={{ cursor: "pointer" }}
                   aria-label="recipe"
                   onClick={() => {
-                    navigate(`/profile/${post.author}`);
+                    navigate(`/profile/${post.username}`);
                   }}
-                >
-                  {post.author ? post.author.charAt(0) : ""}
-                </Avatar>
+                  src={post.userPfp}
+                ></Avatar>
               )}
             </Tooltip>
           }
           action={
-            user.result._id === post.authorId ? (
+            user._id === post.userId ? (
               <IconButton aria-label="settings" onClick={handleClickmenu}>
                 <MoreVertIcon />
               </IconButton>
@@ -218,7 +240,7 @@ const PostBody = ({ post, user, loading }) => {
             )
           }
           title={
-            loading ? <Skeleton variant="text" width="100px" /> : post.author
+            loading ? <Skeleton variant="text" width="100px" /> : post.username
           }
           subheader={
             loading ? (
@@ -271,7 +293,7 @@ const PostBody = ({ post, user, loading }) => {
           <CardActions>
             <IconButton aria-label="add to favorites" onClick={likePost}>
               {post.likes ? (
-                post.likes.includes(user.result._id) ? (
+                post.likes.includes(user._id) ? (
                   <FavoriteIcon color="secondary" />
                 ) : (
                   <FavoriteIcon />
@@ -307,6 +329,16 @@ const PostBody = ({ post, user, loading }) => {
                 horizontal: "left",
               }}
             >
+              <MenuItem
+                onClick={() => {
+                  handleClosewithcopy();
+                }}
+              >
+                <ContentCutIcon
+                  style={{ height: "82px", marginLeft: "15px" }}
+                  fontSize="large"
+                />
+              </MenuItem>
               <MenuItem onClick={handleClose}>
                 <WhatsappShareButton url={`${SHARE_URL + post._id}`}>
                   <WhatsappIcon />
@@ -390,11 +422,7 @@ const PostBody = ({ post, user, loading }) => {
                 }
               />
               {postData.file ? (
-                <img
-                  alt=""
-                  src={postData.file}
-                  style={{ marginTop: "20px", width: "620px", height: "194px" }}
-                />
+                <img alt="" src={postData.file} style={{ marginTop: "20px" }} />
               ) : (
                 <h4>No Image Selected</h4>
               )}
@@ -407,7 +435,7 @@ const PostBody = ({ post, user, loading }) => {
               <div>
                 <Tooltip
                   arrow
-                  title="NOTE: Image is mandatory and body must be greater than 25 letters"
+                  title="NOTE: Image is mandatory and body must be greater than 25 letters and must be smaller than 85 letters"
                 >
                   <InfoOutlined
                     style={{
@@ -470,7 +498,7 @@ const PostBody = ({ post, user, loading }) => {
           sx={{ width: "100%" }}
         >
           {post.likes
-            ? post.likes.includes(user.result._id)
+            ? post.likes.includes(user._id)
               ? "Like removed succesfully"
               : "Like added succesfully"
             : ""}

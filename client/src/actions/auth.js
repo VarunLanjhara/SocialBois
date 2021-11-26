@@ -26,18 +26,6 @@ export const signUp = (databoi, navigate) => async (dispatch) => {
   }
 };
 
-export const getUserByName = (name) => async (dispatch) => {
-  try {
-    const { data } = await api.getUserByName(name);
-    dispatch({
-      type: "GET_USER",
-      data,
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
-
 export const updateProfile = (id, dataa) => async (dispatch) => {
   try {
     const { data } = await api.updateUser(id, dataa);
@@ -55,6 +43,18 @@ export const followUser = (id, userId) => async (dispatch) => {
     const { data } = await api.followUser(id, userId);
     dispatch({
       type: "FOLLOW_USER",
+      data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getUserById = (id) => async (dispatch) => {
+  try {
+    const { data } = await api.getuserbyid(id);
+    dispatch({
+      type: "USER_BYID",
       data,
     });
   } catch (err) {

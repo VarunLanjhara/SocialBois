@@ -25,7 +25,10 @@ router.post("/", async (req, res) => {
   const newPost = new Post(post);
   try {
     await newPost.save();
-    res.json(newPost);
+    const postsStuff = await Post.find().sort({
+      createdAt: -1,
+    });
+    res.json(postsStuff);
   } catch (err) {
     console.log(err);
   }
@@ -118,7 +121,7 @@ router.get("/:postid", async (req, res) => {
 router.get("/currentboiposts/:userId", async (req, res) => {
   try {
     const userposts = await Post.find({
-      authorId: req.params.userId,
+      userId: req.params.userId,
     });
     if (userposts) {
       res.send(userposts);
@@ -156,8 +159,9 @@ router.put("/:postid/comment", async (req, res) => {
 
 router.get("/find/:postname", async (req, res) => {
   try {
+    const bodyboi = new RegExp(req.params.postname, "i");
     const post = await Post.find({
-      body: req.params.postname,
+      body: bodyboi,
     });
     if (post) {
       res.json(post);

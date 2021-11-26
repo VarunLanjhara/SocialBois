@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://127.0.0.1:8000",
+  baseURL: "https://socialbois.herokuapp.com",
 });
 
 export const fetchPosts = () => API.get("/posts");
@@ -32,3 +32,4 @@ export const commentOnPost = (id, user, comment) =>
   });
 
 export const searchQuery = (name) => API.get(`/posts/find/${name}`);
+export const getuserbyid = (id) => API.get(`/users/getuser/${id}`);

@@ -16,7 +16,9 @@ import { createPosts } from "../../actions/posts";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { InfoOutlined } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
+import { useInRouterContext, useNavigate } from "react-router-dom";
+import { getUserById } from "../../actions/auth";
+import { useParams } from "react-router-dom";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -35,12 +37,23 @@ const Posts = ({ user }) => {
   }, [dispatch]);
 
   const [open, setOpen] = React.useState(false);
+
   const [postData, setpostData] = useState({
-    author: user.result.username,
+    username: "",
+    userId: "",
+    userPfp: "",
     body: "",
     file: "",
-    authorId: user.result._id,
   });
+
+  useEffect(() => {
+    setpostData({
+      ...postData,
+      username: user.username,
+      userId: user._id,
+      userPfp: user.pfp,
+    });
+  }, [user]);
 
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -75,14 +88,10 @@ const Posts = ({ user }) => {
     handleClickalert();
   };
 
-  useEffect(() => {
-    console.log(user.result.username);
-  }, [user]);
-
   return (
     <div className="Posts">
       <div className="topstuff">
-        <Tooltip title={user.result.username} arrow>
+        <Tooltip title={user.username} arrow>
           <Avatar
             alt=""
             sx={{
@@ -92,7 +101,7 @@ const Posts = ({ user }) => {
               marginTop: "20px",
               cursor: "pointer",
             }}
-            src={user.result.pfp}
+            src={user.pfp}
           />
         </Tooltip>
         <TextField
@@ -144,7 +153,16 @@ const Posts = ({ user }) => {
                 }
               />
               {postData.file ? (
-                <img alt="" src={postData.file} style={{ marginTop: "20px" }} />
+                <img
+                  alt=""
+                  src={postData.file}
+                  style={{
+                    marginTop: "20px",
+                    width: "588px",
+                    height: "194px",
+                    marginRight: "20px",
+                  }}
+                />
               ) : (
                 <h4>No Image Selected</h4>
               )}
@@ -157,7 +175,7 @@ const Posts = ({ user }) => {
               <div>
                 <Tooltip
                   arrow
-                  title="NOTE: Image is mandatory and body must be greater than 25 letters"
+                  title="NOTE: Image is mandatory and body must be greater than 25 letters and must be smaller than 85 letters"
                 >
                   <InfoOutlined
                     style={{
