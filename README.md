@@ -22,17 +22,17 @@ Star the repo if you like what you see.
 - And more
 ```
 ## Screenshots
-<img src = "https://lh4.googleusercontent.com/sWZz75KqaQS89X4MqXu6m8n6fSP-_e-PI3_CnxUnj34wvPL6MbJB16enE9yQ-dhh7ddV-W9zXmQXQw=w1392-h664-rw" alt = "" width = "900px" height = "500px">
-<img src = "https://lh4.googleusercontent.com/CskH2RgAKrDNR-S1vY8t3m6jiWDGtTEvxpAgWNYul1tvMCkgtX3J5kXvdVrtsb1yIFVtdsCS1tF01A=w1360-h622-rw" alt = "" width = "900px" height = "500px">
-<img src = "https://lh3.googleusercontent.com/srhlPIEUuQwbpwfHQwysF73TOrrtZXglCNnCl7FBEkGeG4CA5JMpBLXbHyjLLuLw44lNwawAEFJvGA=w1360-h615-rw" alt = "" width = "900px" height = "500px">
-<img src = "https://lh4.googleusercontent.com/dCpCqnPVGloGnNgjvbuIxGtbtXL5QQ8G90zSN2EOD40f-BJ-LXl8v6Qvp6gw0CigICPXSgYy-XDuYw=w1360-h615-rw" alt = "" width = "900px" height = "500px">
-<img src = "https://lh6.googleusercontent.com/pLosuBCDYezH3WOrdr54jhqu1Qd1nT4EeWGkRdI0DshtbyVEJJmW05KwhBC11J1rILfnEtrkl5XsdQ=w1360-h615-rw" alt = "" width = "900px" height = "500px">
-<img src = "https://lh6.googleusercontent.com/_ckNKgNcKMbCuNOJUWaoHoerQW6G45V2sLtGE1RkVDqW0Ma8KKlYTlrIPqfRT_TDhWcL_S0DTaOm_w=w1360-h615-rw" alt = "" width = "900px" height = "500px">
-<img src = "https://lh4.googleusercontent.com/soFRxCokpKHgHhsKRv4HHjDrCrOLdgKOXIukoV0QeoQPSTZ3w2Ps9MF3BZdDEaF37505C_8OxJKUiQ=w1360-h615-rw" alt = "" width = "900px" height = "500px">
-<img src = "https://lh5.googleusercontent.com/esMkDHTJaf8HEaSmD6q7ekJLOZQXfCgh42uWtS4WamDjcsmob2wsxRu790NI1jsSzFI2OztAaMATvA=w1360-h615-rw" alt = "" width = "900px" height = "500px">
-<img src = "https://lh6.googleusercontent.com/UDhfHqtfZtq1ngB8QaSdGNhMzM8oXLJRAYj9nJ1wgIvVpbQFuzhdMMbhjO-73C0HXZaPlP9jyMn_BQ=w1360-h615-rw" alt = "" width = "900px" height = "500px">
-<img src = "https://lh6.googleusercontent.com/cIoRlljbBTxqIB2CAA6QajrB9nGLcM_uhw8NXBHxaDNervswJCIjKXak1Lc9xfLrJQ84LQYk3X5yEw=w1360-h615-rw" alt = "" width = "900px" height = "500px">
-<img src = "https://lh3.googleusercontent.com/4bdWx4hidHEdRhdhTP2wLA7Z52nwdflbRlCB1mM01cCIES_y-xbcxS47Bx4NuDIr7yJ0BAr3UWaVjQ=w1360-h615-rw" alt = "" width = "900px" height = "500px">
+<img src = "https://github.com/VarunLanjhara/SocialBois/blob/main/client/public/images/home.png" alt = "" width = "900px" height = "500px">
+<img src = "https://github.com/VarunLanjhara/SocialBois/blob/main/client/public/images/other_profiles.png" alt = "" width = "900px" height = "500px">
+<img src = "https://github.com/VarunLanjhara/SocialBois/blob/main/client/public/images/profile.png" alt = "" width = "900px" height = "500px">
+<img src = "https://github.com/VarunLanjhara/SocialBois/blob/main/client/public/images/createpost.png" alt = "" width = "900px" height = "500px">
+<img src = "https://github.com/VarunLanjhara/SocialBois/blob/main/client/public/images/your_stuff.png" alt = "" width = "900px" height = "500px">
+<img src = "https://github.com/VarunLanjhara/SocialBois/blob/main/client/public/images/likeshare.png" alt = "" width = "900px" height = "500px">
+<img src = "https://github.com/VarunLanjhara/SocialBois/blob/main/client/public/images/report.png" alt = "" width = "900px" height = "500px">
+<img src = "https://github.com/VarunLanjhara/SocialBois/blob/main/client/public/images/searchresults.png" alt = "" width = "900px" height = "500px">
+<img src = "https://github.com/VarunLanjhara/SocialBois/blob/main/client/public/images/comments.png" alt = "" width = "900px" height = "500px">
+<img src = "https://github.com/VarunLanjhara/SocialBois/blob/main/client/public/images/404page.png" alt = "" width = "900px" height = "500px">
+<img src = "https://github.com/VarunLanjhara/SocialBois/blob/main/client/public/images/trending.png" alt = "" width = "900px" height = "500px">
 
 ## What's Next?
  - Chat feature
